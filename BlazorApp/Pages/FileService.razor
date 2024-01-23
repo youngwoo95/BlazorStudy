@@ -1,0 +1,56 @@
+﻿@* 해당 페이지는 파일서버 - 업로드 - 다운로드 관련 참고 페이지임. *@
+@page "/fileservice"
+
+@inject IConfiguration config // IConfiguration 을 injection 해줘야 appsettings.json에서 선언한 내용을 사용할 수 있음.
+
+
+<h1>File Upload</h1>
+
+<p>
+    <label>Max file size:
+        <input type="number" @bind="maxFileSize" />
+    </label>
+</p>
+
+<p>
+    <label> Max allowed files:
+        <input type="number" @bind="maxAllowedFiles" />
+    </label>
+</p>
+
+<p>
+    <label> Upload up to @maxAllowedFiles of up to @maxFileSize bytes:
+        <InputFile OnChange="@LoadFiles" multiple />
+    </label>
+</p>
+
+
+@code {
+    private List<IBrowserFile> loadedFiles = new();
+    private long maxFileSize = 10240 * 15; // 업로드 가능한 최대 파일 크기
+    private int maxAllowedFiles = 3; // 한번에 업로드 가능한 최대 개수
+
+    private async Task LoadFiles(InputFileChangeEventArgs e)
+    {
+        loadedFiles.Clear();
+
+        foreach(var file in e.GetMultipleFiles(maxAllowedFiles))
+        {
+            try
+            {
+                string newFileName = Path.ChangeExtension(Path.GetRandomFileName(), Path.GetExtension(file.Name)); // 업로드할때 파일 암호화 처리
+                string path = Path.Combine(Path.Combine(config.GetValue<string>("FileStorage")!, "tcorey", newFileName));
+
+                Directory.CreateDirectory(Path.Combine(config.GetValue<string>("FileStorage")!, "tcorey")); // 해당경로에 디렉터리가 존재하지 않으면 생성한다.
+
+                await using FileStream fs = new(path, FileMode.Create);
+                await file.OpenReadStream(maxFileSize).CopyToAsync(fs); // 파일을 복사한다.
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine($"File : {file.Name} Error : {ex.Message}");
+            }
+        }
+    }
+
+}
