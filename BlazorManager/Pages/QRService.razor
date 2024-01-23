@@ -1,0 +1,45 @@
+﻿@page "/qrservice"
+@using Newtonsoft.Json.Linq
+@inject IJSRuntime JS
+
+<h3>QRService</h3>
+
+<span>ID: </span>
+<input type="text" @bind-value="id" />
+<br />
+
+<span>내용: </span>
+<input type="text" @bind-value="content" />
+<br />
+
+@* QR생성 버튼 *@
+<div>
+    <input type="button" @onclick="btnClick" value="QR생성 버튼" />
+    <div id="qrcodes" style="width:100px; height:100px; margin:auto; margin-top:15px;" />
+</div>
+
+@code {
+    /// <summary>
+    /// 아이디
+    /// </summary>
+    private string id { get; set; }
+
+    /// <summary>
+    /// 내용
+    /// </summary>
+    private string content { get; set; }
+
+    /// <summary>
+    /// QR 생성 버튼
+    /// </summary>
+    protected void btnClick()
+    {
+        JObject json = new JObject();
+        json.Add("ID", id);
+        json.Add("CONTENT", content);
+        JS.InvokeVoidAsync("qrcreate", json.ToString());
+
+        // 우측 내용은 QR 실행했을 때의 내용인 -- 암호화해서 처리해야할듯.
+        //JS.InvokeVoidAsync("qrcreate", "https://123.2.156.148:7035/Counter");
+    }
+}
