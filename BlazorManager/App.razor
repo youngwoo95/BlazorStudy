@@ -1,7 +1,19 @@
 ﻿<CascadingAuthenticationState>
     <Router AppAssembly="@typeof(App).Assembly">
         <Found Context="routeData">
-            <AuthorizeRouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)" />
+            @*
+            <RouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)" />
+            *@
+            @* 변경 *@
+            <AuthorizeRouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)">
+                <NotAuthorized>
+                    권한이 없는 사용자입니다.
+                </NotAuthorized>
+                <Authorizing>
+                    인증 중입니다
+                </Authorizing>
+            </AuthorizeRouteView>
+
             <FocusOnNavigate RouteData="@routeData" Selector="h1" />
         </Found>
         <NotFound>

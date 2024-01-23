@@ -2,6 +2,7 @@
 @page "/fileservice"
 
 @inject IConfiguration config // IConfiguration 을 injection 해줘야 appsettings.json에서 선언한 내용을 사용할 수 있음.
+@attribute [Authorize(Roles = "Administrator,User")]
 
 
 <h1>File Upload</h1>

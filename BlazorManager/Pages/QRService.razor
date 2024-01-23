@@ -2,6 +2,8 @@
 @using Newtonsoft.Json.Linq
 @inject IJSRuntime JS
 
+@attribute [Authorize(Roles = "Administrator")]
+
 <h3>QRService</h3>
 
 <span>ID: </span>

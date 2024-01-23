@@ -1,7 +1,9 @@
 using BlazorManager.Areas.Identity;
+using BlazorManager.Authentication;
 using BlazorManager.Data;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
+using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI;
@@ -9,6 +11,10 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.FileProviders;
 
 var builder = WebApplication.CreateBuilder(args);
+
+#region 사용자 인증
+builder.Services.AddAuthenticationCore();
+#endregion
 
 // Add services to the container.
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
@@ -21,6 +27,16 @@ builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
 builder.Services.AddScoped<AuthenticationStateProvider, RevalidatingIdentityAuthenticationStateProvider<IdentityUser>>();
 builder.Services.AddSingleton<WeatherForecastService>();
+
+
+#region 사용자 인증
+// 종속성 주입
+builder.Services.AddScoped<ProtectedSessionStorage>();
+// 맞춤 인증 상태 제공자 클래스에 대한 종속성 주입. -- 범위가 지정된 종속성
+builder.Services.AddScoped<AuthenticationStateProvider, CustomAuthenticationStateProvider>();
+// 샘플 데이터
+builder.Services.AddSingleton<UserAccountService>();
+#endregion
 
 var app = builder.Build();
 
