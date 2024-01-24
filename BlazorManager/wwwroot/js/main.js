@@ -74,20 +74,6 @@ function qrcreate(strValue) {
     })    
 };
 
-// 화면 PDF 변환
-function btnPrint() {
-    var divContents = document.getElementById("text").innerHTML;
-    var printWindow = window.open('', '', 'height=400,width=800');
-    printWindow.document.write('<html><head><title>제목이 들어갈 자리</title>');
-    printWindow.document.write('</head><body >');
-    printWindow.document.write(divContents);
-    printWindow.document.write('</body></html>');
-    setTimeout(function () {
-        printWindow.print();
-        printWindow.document.close();
-    }, 250);
-}
-
 
 
         

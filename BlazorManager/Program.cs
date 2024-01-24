@@ -56,7 +56,7 @@ else
 
 app.UseFileServer(new FileServerOptions
 {
-    FileProvider = new PhysicalFileProvider("N:\\개인"), // 실제경로
+    FileProvider = new PhysicalFileProvider("C:\\Users\\rlady"), // 실제경로
     RequestPath = "/System", // 호출할때 사용될 경로
     EnableDirectoryBrowsing = true // 필수옵션
 });
