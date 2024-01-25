@@ -1,0 +1,56 @@
+﻿@page "/emailservice"
+@using System.Net.Mail
+@using System.Net
+
+<PageTitle>이메일 서비스</PageTitle>
+
+@*
+    구글 SMTP 설정 
+    - 아래 블로그 참조
+    https://hyunmin1906.tistory.com/276
+*@
+
+<input type="button" value="메일 보내기" @onclick="btn_Click"/>
+
+@code {
+
+    /// <summary>
+    /// 메일전송 이벤트
+    /// </summary>
+    private void btn_Click()
+    {
+        try
+        {
+            MailMessage mail = new MailMessage();
+            mail.From = new MailAddress("dyddnkim95@gmail.com"); // 보낸사람
+            mail.Subject = "이메일 테스트123"; // 메일의 제목
+            mail.Body = "메일 내용 123456";
+
+            Attachment ATT = new Attachment(@"C:\Users\user\Documents\BlazorStudy\BlazorManager\wwwroot\캡처.PNG"); // 첨부파일의 경로임 ex) D:\\캡처.PNG
+            mail.Attachments.Add(ATT); // 메일객체에 첨부파일 추가
+
+            // 보낼사람 - 다수 가능
+            mail.To.Add(new MailAddress("rladyddn258@naver.com"));
+
+            // 인증관련
+            var client = new SmtpClient()
+            {
+                Port = 587, // google
+                DeliveryMethod = SmtpDeliveryMethod.Network,
+                Host = "smtp.gmail.com",
+                EnableSsl = true,
+
+                // 구글 정책변경으로 인한 2단계 인증 내용
+                // gmail ID / 2단계 비밀번호
+                Credentials = new NetworkCredential("dyddnkim95@gmail.com", "jtrw hikp jifq dusl")
+            };
+
+            client.Send(mail); // 보내기
+            Console.WriteLine("전송완료");
+        }
+        catch(Exception ex)
+        {
+            Console.WriteLine(ex.Message);
+        }
+    }
+}
