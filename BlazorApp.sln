@@ -11,7 +11,7 @@ Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "ArticleApp.SqlServer", "Art
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ArticleApp.Models.Tests", "ArticleApp.Models.Tests\ArticleApp.Models.Tests.csproj", "{0A54F49B-0078-4FC1-B17E-C900E9B73244}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArticleApp", "ArticleApp\ArticleApp.csproj", "{FB40B189-7957-4428-83AB-399685B2E826}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ArticleApp", "ArticleApp\ArticleApp.csproj", "{FB40B189-7957-4428-83AB-399685B2E826}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

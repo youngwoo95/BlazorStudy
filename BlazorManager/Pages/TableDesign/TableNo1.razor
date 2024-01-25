@@ -1,0 +1,65 @@
+﻿@page "/TableNo1"
+
+<style>
+    .type09 {
+        border-collapse: collapse;
+        line-height: 1.5;
+    }
+
+        .type09 thead th {
+            padding: 10px;
+            font-weight: bold;
+            vertical-align: top;
+            color: #369;
+            border-bottom: 3px solid #036;
+        }
+
+        .type09 tbody th {
+            width: 150px;
+            padding: 10px;
+            font-weight: bold;
+            vertical-align: top;
+            border-bottom: 1px solid #ccc;
+            background: #f3f6f7;
+        }
+
+        .type09 td {
+            width: 350px;
+            padding: 10px;
+            vertical-align: top;
+            border-bottom: 1px solid #ccc;
+        }
+</style>
+
+<table class="type09">
+    <!-- 테이블 헤더 -->
+    <thead>
+        <tr>
+            <th scope="cols">타이틀</th>
+            <th scope="cols">내용</th>
+        </tr>
+    </thead>
+
+    <!-- 테이블 바디 -->
+    <tbody>
+        <tr>
+            <th scope="row">항목명1</th>
+            <td>내용이 들어감</td>
+        </tr>
+
+        <tr>
+            <th scope="row">항목명2</th>
+            <td>내용이 들어감</td>
+        </tr>
+
+        <tr>
+            <th scope="row">항목명3</th>
+            <td>내용이 들어감</td>
+        </tr>
+    </tbody>
+
+</table>
+
+@code {
+
+}
