@@ -1,7 +1,8 @@
-﻿@page "/Articles/Detail"
+﻿@page "/Articles/Details/{Id:int}"
 
 <h3>Detials</h3>
 
 @code {
-
+    [Parameter]
+    public int Id { get; set; }
 }
