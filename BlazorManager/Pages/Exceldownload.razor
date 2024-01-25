@@ -1,0 +1,109 @@
+﻿@page "/exceldownload"
+@using ClosedXML.Excel
+@inject IJSRuntime JS
+
+@* Nuget Packetage관리자 에서 ClosedXML 다운로드 *@
+
+@*
+    엑셀 해당 블로그 참조.
+    https://jacking75.github.io/NET_lib_ClosedXML/
+
+    안의 내용넣는건 ClosedXML - 윈폼 OR WPF와 동일하므로 구글참조
+*@
+
+
+<PageTitle>엑셀 다운로드 예시</PageTitle>
+
+
+<input type="button" value="엑셀 다운로드 버튼" @onclick="btn_Click" />
+
+@code {
+
+
+
+    private async Task btn_Click()
+    {
+        // 새 통합 문서를 만들
+        var workbook = new XLWorkbook();
+
+        // 새 워크 시트 "Sample Sheet"를 만들고 방금 만든 통합 문서에 추가
+        var worksheet = workbook.Worksheets.Add("WorkSheet_Name");
+
+        // 셀의 주소 문자열로 지정
+        worksheet.Cell(1, 1).Value = "1_1내용";
+
+        // 셀의 행과 열의 숫자로 지정 ※ 최소는 1이다, 0은 오류
+        worksheet.Cell(2, 1).Value = "1_1내용";
+        // 셀의 행은 숫자 / 셀의 행은 문자열로 지정
+        worksheet.Cell(2, "B").Value = "1_2내용";
+
+
+        // 셀의 값뿐만 아니라.
+        /*
+        * 배경색,
+        * 글꼴,
+        * 문자열의 배치 위치,
+       * 숫자 포맷
+        * 테두리 유형
+        * 테두리 색상
+        */
+        // 등을 설정할 수 있다.
+
+        // 만든 워크시트의 A1 셀을 변수에 넣는다.
+        var cell = worksheet.Cell("A1");
+
+        // 셀의 배경색 (R = 255, G = 0, B = 0)로 설정
+        cell.Style.Fill.BackgroundColor = XLColor.FromArgb(255, 0, 0);
+
+        // 셀의 문자의 글꼴을 설정
+        cell.Style.Font.FontName = "맑은 고딕";
+
+        // 셀의 문자의 수평 방향의 배치 위치를 중앙으로 설정
+        cell.Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
+
+        // 셀의 문자의 수직 정렬 위치를 중앙으로 설정
+        cell.Style.Alignment.Vertical = XLAlignmentVerticalValues.Center;
+
+        // 셀의 숫자 서식을 "yyyy/mm"로 설정 어떤 형식으로 지정 가능
+        cell.Style.DateFormat.Format = "yyyy/mm";
+
+        // 셀 주위의 테두리를 점선으로 설정
+        cell.Style.Border.OutsideBorder = XLBorderStyleValues.MediumDashDotDot;
+
+        // 셀 주위의 테두리 색을 검은 색으로 설정
+        cell.Style.Border.OutsideBorderColor = XLColor.Black;
+
+        // 문자의 배치 위치를 알기 쉽게하기 위해 셀의 크기를 변경
+        worksheet.Column(1).Width = 50;
+        worksheet.Row(1).Height = 50;
+
+
+        /*
+        수동으로 Excel을 편집 할 때 처럼 셀 단체가 아니라 범위를 대상으로 설정할 수 있다.
+    */
+        // 만든 워크시트의 A1 셀에서 C5 셀의 범위를 변수에 넣는다.
+        // 범위 지정은 왼쪽 위 셀과 오른쪽 아래 셀을 지정
+        var range = worksheet.Range(worksheet.Cell("A1"), worksheet.Cell("C5"));
+
+        // 범위 내의 모든 셀의 배경색을 파란색으로 설정
+        range.Style.Fill.BackgroundColor = XLColor.Blue;
+
+
+        // 만든 워크 북을 "HelloWorld.xlsx"로 다른 이름으로 저장
+        // 해당 내용은 JavaScript로 처리한다.
+        //workbook.SaveAs("HelloWorld123444.xlsx");
+
+
+
+
+        // 밑에가 저장 로직
+
+        MemoryStream XLSStream = new();
+        workbook.SaveAs(XLSStream, false);
+        byte[] byteData = XLSStream.ToArray();
+
+        await JS.InvokeAsync<object>("saveAsFile", "테스트엑셀.xlsx", System.Convert.ToBase64String(byteData));
+        
+    }
+
+}
