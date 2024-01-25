@@ -99,3 +99,55 @@ function saveAsFile(filename, bytesBase64) {
     link.click();
     document.body.removeChild(link);
 }
+
+// 마지막 행에 추가
+function AddClick() {
+    var tableData = document.getElementById("testtable");
+    var row = tableData.insertRow(tableData.rows.length);
+
+    var cell1 = row.insertCell(0);
+    var cell2 = row.insertCell(1);
+
+    cell1.innerHTML = "<td><input type='checkbox' name='chkbox'></td>";
+    cell2.innerHTML = `<td><p> 여기엔 내용이 들어갑니다. </p></td>`;
+    //cell2.innerHTML = `<td><p>` + i + `</p></td>`;
+}
+
+// 마지막 행 삭제
+function DeleteClick() {
+    var tableData = document.getElementById("testtable");
+
+    if (tableData.rows.length < 1) return;
+
+    tableData.deleteRow(tableData.rows.length - 1); // 맨 아래 행 삭제
+}
+
+// 선택된 행 삭제
+function SelectDeleteClick() {
+    var tableData = document.getElementById('testtable');
+    for (var i = 0; i < tableData.rows.length; i++) {
+        var checkbox = tableData.rows[i].cells[0].childNodes[0].checked;
+
+        if (checkbox) {
+            tableData.deleteRow(i);
+            //var text = tableData.rows[i].cells[1];
+            //console.log(tableData.rows[i].cells[1].textContent);
+            i--;
+        }
+
+    }
+}
+
+// 선택된 행 출력
+function SelectPrintClick() {
+    var tableData = document.getElementById('testtable');
+    for (var i = 0; i < tableData.rows.length; i++) {
+        var checkbox = tableData.rows[i].cells[0].childNodes[0].checked;
+
+        if (checkbox) {
+            var text = tableData.rows[i].cells[1];
+            console.log(tableData.rows[i].cells[1].textContent);
+        }
+
+    }
+}

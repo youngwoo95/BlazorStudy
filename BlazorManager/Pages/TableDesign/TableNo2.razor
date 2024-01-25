@@ -1,0 +1,70 @@
+﻿@page "/TableNo2"
+@inject IJSRuntime JS
+
+<PageTitle>페이지 기능 구현</PageTitle>
+
+<style>
+    table{
+        border-collapse: collapse;
+        border: 1px solid black;
+    }
+</style>
+
+
+@* 마지막 행 추가 *@
+<input type="button" value="행 추가" @onclick="btn_Add"/>
+
+@* 마지막 행 삭제 *@
+<input type="button" value="행 삭제" @onclick="btn_Delete"/>
+
+@* 선택한 행 삭제 *@
+<input type="button" value="선택 행 삭제" @onclick="btn_SelectDelete"/>
+
+@* 선택한 행 내용 출력 *@
+<input type="button" value="선택한 행 내용 출력" @onclick="btn_SelectPrint"/>
+
+<table id="testtable" align="center" width="500" border="1">
+    <thead>
+        <tr>
+           <th scope="col">체크</th>
+           <th scope="col">내용</th>
+        </tr>
+    </thead>
+</table>
+
+
+@code {
+
+    /// <summary>
+    /// 마지막 행에 행추가
+    /// </summary>
+    private void btn_Add()
+    {
+        JS.InvokeVoidAsync("AddClick");
+    }
+
+    /// <summary>
+    /// 마지막 행 삭제
+    /// </summary>
+    private void btn_Delete()
+    {
+        JS.InvokeVoidAsync("DeleteClick");
+    }
+
+    /// <summary>
+    /// 선택한 행 삭제
+    /// </summary>
+    private void btn_SelectDelete()
+    {
+        JS.InvokeVoidAsync("SelectDeleteClick");
+    }
+
+    /// <summary>
+    /// 선택한 행 내용 출력
+    /// </summary>
+    private void btn_SelectPrint()
+    {
+        JS.InvokeVoidAsync("SelectPrintClick");
+    }
+
+}

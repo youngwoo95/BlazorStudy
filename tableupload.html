@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>테이블 페이지</title>
+    
+    <script>
+        var i =0;
+        function AddClick()
+        {
+            var tableData = document.getElementById("testtable");
+            var row = tableData.insertRow(tableData.rows.length);
+
+            var cell1 = row.insertCell(0);
+            var cell2 = row.insertCell(1);
+
+            cell1.innerHTML = "<td><input type='checkbox' name='chkbox'></td>";
+            //cell2.innerHTML = `<td><p> 여기엔 내용이 들어갑니다. </p></td>`;
+            cell2.innerHTML = `<td><p>`+i+`</p></td>`;
+            i++
+        }
+
+        function DeleteClick()
+        {
+            var tableData = document.getElementById("testtable");
+
+            if(tableData.rows.length<1) return;
+
+            tableData.deleteRow(tableData.rows.length-1); // 맨 아래 행 삭제
+        }
+
+        function SelectDeleteClick()
+        {
+            var tableData = document.getElementById('testtable');
+            for(var i = 0; i< tableData.rows.length;i++){
+                var checkbox = tableData.rows[i].cells[0].childNodes[0].checked;
+
+                if(checkbox){
+                    tableData.deleteRow(i);
+                    //var text = tableData.rows[i].cells[1];
+                    //console.log(tableData.rows[i].cells[1].textContent);
+                    i--;
+                }
+                
+            }
+        }
+
+        function SelectPrintClick()
+        {
+            var tableData = document.getElementById('testtable');
+            for(var i = 0; i< tableData.rows.length;i++){
+                var checkbox = tableData.rows[i].cells[0].childNodes[0].checked;
+
+                if(checkbox){
+                    var text = tableData.rows[i].cells[1];
+                    console.log(tableData.rows[i].cells[1].textContent);
+                }
+                
+            }
+        }
+
+    </script>
+
+</head>
+<body>
+    <input type="button" value="행 추가" onclick="AddClick()"/>
+    <input type="button" value="행 삭제" onclick="DeleteClick()"/>
+    <input type="button" value="선택 행 삭제" onclick="SelectDeleteClick()"/>
+    <input type="button" value="선택 행 내용 출력" onclick="SelectPrintClick()"/>
+
+    <table id="testtable" align="center" width="200" border="1px solid; black">
+        <thead>
+            <tr>
+                <th>체크</th>
+                <th>내용</th>
+            </tr>
+        </thead>
+    </table>
+    
+</body>
+</html>
