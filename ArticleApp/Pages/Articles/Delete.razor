@@ -1,7 +1,62 @@
 ﻿@page "/Articles/Delete/{Id:int}"
+
+@inject IArticleRepository ArticleRepository
+@inject NavigationManager NaviManager
+@inject IJSRuntime JS
+
 <h3>Delete</h3>
+<hr />
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <!-- 그냥 출력하는 용 -->
+            <div class="form-group">
+                <label for="id">ID: </label> @Model.Id
+            </div>
+
+            <div class="form-group">
+                <label for="title">TITLE: </label> @Model.Title
+            </div>
+
+            <div class="form-group">
+                @Model.Content
+            </div>
+
+            <div class="form-group">
+                <a href="/Articles/Delete/@Model.Id" class="btn btn-danger" @onclick="btnDelete_Click">Delete</a>
+                <a href="/Articles/Details/@Model.Id" class="btn btn-primary">Cancel</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
 
 @code {
     [Parameter]
-    public int Id{ get; set; }
+    public int Id { get; set; }
+
+    public Article Model { get; set; } = new Article();
+
+    protected override async Task OnInitializedAsync()
+    {
+        Model = await ArticleRepository.GetArticleByIdAsync(Id);
+    }
+
+    protected async void btnDelete_Click()
+    {
+        bool result = await JS.InvokeAsync<bool>("confirm", "정말로 삭제하시겠습니까?");
+
+        if(result){
+            await ArticleRepository.DeleteArticleAsync(Id); // 삭제
+            NaviManager.NavigateTo("/Articles"); // 리스트 페이지로 이동
+        }
+        else
+        {
+            await JS.InvokeAsync<object>("alert", "취소되었습니다!");
+        }
+    }
+
 }
