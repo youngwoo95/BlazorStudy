@@ -15,13 +15,12 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="id">TITLE: </label> @Model.Title
+                    <label for="title">TITLE: </label> @Model.Title
                 </div>
 
                 <div class="form-group">
-                    <label for="id">TITLE: </label> @Model.Title
+                    @Model.Content
                 </div>
-
 
                 <div class="form-group">
                     <a href="/Articles/Edit/@Model.Id" class="btn btn-primary">Edit</a>
@@ -44,7 +43,6 @@
     protected override async Task OnInitializedAsync()
     {
         Model = await ArticleRepository.GetArticleByIdAsync(Id);
-        
     }
 
 }

@@ -13,7 +13,6 @@
                 <DataAnnotationsValidator></DataAnnotationsValidator>
                 <ValidationSummary></ValidationSummary>
 
-
                 <div class="form-group">
                     <label for="Title">Title</label>
                     <InputText id="Title" class="form-control" placeholder="Enter Title" @bind-Value="@Model.Title"> </InputText>
@@ -21,9 +20,21 @@
                     <!-- Model에 대한 Validation 추가 -->
                     <ValidationMessage For="@(()=>Model.Title)" class="form-text text-muted" style="background-color:black"></ValidationMessage>
                 </div>
-                
-                <button type="submit" class="btn btn-primary">Submit</button>
-                <a href="/Articles" class="btn btn-secondary">List</a>
+
+                <div class="form-group">
+                    <label for="Content">Content</label>
+
+                    <InputTextArea id="Content" class="form-control" placeholder="Enter Content" @bind-Value="@Model.Content"> </InputTextArea>
+
+                    <!-- Model에 대한 Validation 추가 -->
+                    <ValidationMessage For="@(()=>Model.Content)" class="form-text text-muted" style="background-color:black"></ValidationMessage>
+                </div>
+
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                    <a href="/Articles" class="btn btn-secondary">List</a>
+                </div>
+
             </EditForm>
         </div>
     </div>
