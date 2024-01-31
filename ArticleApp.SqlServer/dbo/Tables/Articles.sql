@@ -7,6 +7,8 @@ CREATE TABLE [dbo].[Articles]
 	-- TODO: Columns Add Region
 	[Content] nvarchar(MAX) Null, -- 내용
 
+	[IsPinned] Bit null default(0), -- 공지글로 올리기
+
 	-- AuditableBase.cs 참조
 	[CreatedBy] nvarchar(255) null, -- 등록자
 	[Created] DateTime default(getDate()), -- 생성일
