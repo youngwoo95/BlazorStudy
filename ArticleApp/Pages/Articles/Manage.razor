@@ -32,6 +32,7 @@ else
                 <th>&nbsp;</th>
                 <th>IsPinned</th>
                 <th>&nbsp;</th>
+                <th>Delete</th>
             </tr>
         </thead>
         <tbody>
@@ -50,6 +51,10 @@ else
                     <td>
                         <input type="button" value="공지글로 올리기" class="btn btn-light" @onclick="@(()=>PinnedBy(article))" />
                     </td>
+                    <td>
+                        <input type="button" value="Delete" class="btn btn-danger" data-toggle="modal" data-target="#articleDeleteDialog"
+                        @onclick="(()=> DeleteBy(article))"/>
+                    </td>
                 </tr>
             }
         </tbody>
@@ -57,6 +62,8 @@ else
 }
 
 <ArticlePager Model="pager" PageIndexChanged="PageIndexChanged"></ArticlePager>
+
+<ArticleDeleteDialog OnClick="btnDelete_Click"></ArticleDeleteDialog>
 
 @if (isShow)
 {
@@ -83,6 +90,29 @@ else
 
 
 @code {
+
+    // 자바스크립트 모달폼 사용해서 삭제
+    private void DeleteBy(Article article)
+    {
+        _article = article;
+
+    }
+
+    private async void btnDelete_Click()
+    {
+        await ArticleRepository.DeleteArticleAsync(_article.Id);
+        await JSRuntime.InvokeAsync<object>("closeModal", "articleDeleteDialog");
+        _article = new Article(); // 선택 항목 초기화
+
+        var pagingData = await ArticleRepository.GetAllAsync(pager.PageIndex, pager.PageSize);
+        pager.RecordCount = pagingData.TotalRecords;
+        articles = pagingData.Records.ToList();
+
+        StateHasChanged();
+    }
+
+  
+
     /* 공지사항 모달 */
     private Article _article = new Article(); // 선택한 항목 관리
 
