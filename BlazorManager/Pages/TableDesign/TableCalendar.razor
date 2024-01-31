@@ -1,0 +1,107 @@
+﻿@page "/calendar"
+@using System.Globalization
+
+<h3>TableCalendar</h3>
+
+<style>
+    table {
+        border: 1px solid #444444;
+    }
+
+    th, td {
+        border: 1px solid #444444;
+    }
+</style>
+
+<h1> @String.Format($"{dt.Year}년 {dt.Month}일") </h1>
+
+<table border="1">
+    <thead>
+        <tr>
+            <th>일</th>
+            <th>월</th>
+            <th>화</th>
+            <th>수</th>
+            <th>목</th>
+            <th>금</th>
+            <th>토</th>
+        </tr>
+    </thead>
+    <tbody>
+        @* 첫줄 계산 *@
+        <tr>
+            @for (int i = 0; i < 7; i++)
+            {
+                if (i < startOfWeek)
+                {
+                    <td>&nbsp;</td>
+                }
+                else
+                {
+                    <td>@days</td>
+                    days++;
+                }
+
+            }
+        </tr>
+        @*그 다음부터*@
+        @for (int i = 0; i < 5; i++)
+        {
+            <tr>
+                @for (int j = 0; j < 7; j++)
+                {
+                    @if (days <= lastday)
+                    {
+                        <td>@days</td>
+                        days++;
+                    }
+                    else
+                    {
+                        <td>&nbsp;</td>
+                    }
+                }
+            </tr>
+        }
+
+    </tbody>
+</table>
+
+@code {
+    DateTime dt = new();
+
+    /// <summary>
+    /// 1일의 요일
+    /// </summary>
+    public int startOfWeek{ get; set; }
+
+    Calendar cal { get; set; }
+
+    /// <summary>
+    /// 달의 마지막 날
+    /// </summary>
+    public int lastday{ get; set; }
+
+    /// <summary>
+    /// 요일 필드
+    /// </summary>
+    public int days = 1;
+
+    protected override void OnInitialized()
+    {
+        PrintCalendar(2024, 03);
+    }
+
+    public void PrintCalendar(int year, int month)
+    {
+        dt = new DateTime(year, month, 1, new GregorianCalendar());
+        Console.WriteLine($"\t ------ {dt.Year} 년 {dt.Month} 월 -----");
+
+
+        startOfWeek = (int)dt.DayOfWeek; // 1일의 요일 구하기
+
+        cal = CultureInfo.InvariantCulture.Calendar;
+        lastday = cal.GetDaysInMonth(dt.Year, dt.Month, Calendar.CurrentEra); // 달의 마지막 날}
+    }
+
+
+}
