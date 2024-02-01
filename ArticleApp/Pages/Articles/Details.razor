@@ -19,7 +19,7 @@
                 </div>
 
                 <div class="form-group">
-                    @Model.Content
+                    @((MarkupString)lblContext) <!-- 개행 을 마크업으로 변환시켜 동작시켜준다. -->
                 </div>
 
                 <div class="form-group">
@@ -40,9 +40,13 @@
 
     public Article Model { get; set; } = new Article();
 
+    private string lblContext = "";
+
     protected override async Task OnInitializedAsync()
     {
         Model = await ArticleRepository.GetArticleByIdAsync(Id);
+        lblContext = Model.Content.Replace("\n", "<br />"); // 내용 출력
+        
     }
 
 }
