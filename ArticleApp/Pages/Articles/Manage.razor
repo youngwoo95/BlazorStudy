@@ -14,7 +14,9 @@
 <h3>Manage</h3>
 
 <div>
-    <a href="/Articles/Create" class="btn btn-primary">생성(Create)</a>
+    <a href="/Articles/Create" class="btn btn-primary">Create(Page)</a>
+    <input type="button" value="Create(Model)" class="btn btn-primary" data-toggle="modal" data-target="#articleEditDialog"
+           @onclick="btnCreate_Click" />
 </div>
 
 @if (articles == null)
@@ -32,6 +34,7 @@ else
                 <th>&nbsp;</th>
                 <th>IsPinned</th>
                 <th>&nbsp;</th>
+                <th>Edit</th>
                 <th>Delete</th>
             </tr>
         </thead>
@@ -52,6 +55,10 @@ else
                         <input type="button" value="공지글로 올리기" class="btn btn-light" @onclick="@(()=>PinnedBy(article))" />
                     </td>
                     <td>
+                        <input type="button" value="Edit" class="btn btn-danger" data-toggle="modal" data-target="#articleEditDialog"
+                               @onclick="(()=> EditeBy(article))" />
+                    </td>
+                    <td>
                         <input type="button" value="Delete" class="btn btn-danger" data-toggle="modal" data-target="#articleDeleteDialog"
                         @onclick="(()=> DeleteBy(article))"/>
                     </td>
@@ -63,7 +70,17 @@ else
 
 <ArticlePager Model="pager" PageIndexChanged="PageIndexChanged"></ArticlePager>
 
-<ArticleDeleteDialog OnClick="btnDelete_Click"></ArticleDeleteDialog>
+@if (isDeleteShow)
+{
+    <ArticleDeleteDialog OnClick="btnDelete_Click" IsClosed="btnDeleteClose_Click"></ArticleDeleteDialog>
+}
+
+@if (isEditShow)
+{
+    <ArticleEditorForm Model="@_article" SaveOrUpdated="SaveOrUpdate" IsClosed="btnEditClose_Click">
+        <EditorFormTitle>@editorFormTitle</EditorFormTitle>
+    </ArticleEditorForm>
+}
 
 @if (isShow)
 {
@@ -90,13 +107,69 @@ else
 
 
 @code {
+    private bool isCreate = false;
+    private void btnCreate_Click()
+    {
+        isCreate = true; // 창 열기
+        editorFormTitle = "글쓰기";
+        _article = new Article();
+    }
 
+
+    private string editorFormTitle = "";
+    private bool isEditShow = false; // Notice Modal
+    private void EditeBy(Article article)
+    {
+        isEditShow = true;
+        editorFormTitle = "수정하기";
+        _article = article;
+        StateHasChanged();
+    }
+
+    /// <summary>
+    /// 저장 또는 수정 후 데이터 다시 읽어오기
+    /// </summary>
+    private async void SaveOrUpdate()
+    {
+        var pagingData = await ArticleRepository.GetAllAsync(pager.PageIndex, pager.PageSize);
+        pager.RecordCount = pagingData.TotalRecords;
+        articles = pagingData.Records.ToList();
+
+        isEditShow = false;
+
+        StateHasChanged();
+    }
+
+    /// <summary>
+    /// 모달 창 닫기
+    /// </summary>
+    private void btnEditClose_Click()
+    {
+        isEditShow = false; // 창 닫기
+        _article = new Article(); // 선택했던 모델 초기화
+        StateHasChanged();
+    }
+
+
+    private bool isDeleteShow = false;
     // 자바스크립트 모달폼 사용해서 삭제
     private void DeleteBy(Article article)
     {
+        isDeleteShow = true;
         _article = article;
-
+        StateHasChanged();
     }
+
+    /// <summary>
+    /// 모달 창 닫기
+    /// </summary>
+    private void btnDeleteClose_Click()
+    {
+        isDeleteShow=false;
+        _article = new Article();
+        StateHasChanged();
+    }
+
 
     private async void btnDelete_Click()
     {
@@ -107,6 +180,8 @@ else
         var pagingData = await ArticleRepository.GetAllAsync(pager.PageIndex, pager.PageSize);
         pager.RecordCount = pagingData.TotalRecords;
         articles = pagingData.Records.ToList();
+        
+        isDeleteShow = false;
 
         StateHasChanged();
     }
@@ -117,6 +192,7 @@ else
     private Article _article = new Article(); // 선택한 항목 관리
 
     private bool isShow = false; // Notice Modal
+    
 
     /// <summary>
     /// 모달창 열때
