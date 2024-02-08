@@ -78,6 +78,27 @@ namespace NoticeApp.Models.Tests
             #endregion
 
 
+            // [?] GetStatus() Method Test
+            using (var context = new NoticeAppDbContext(options))
+            {
+                int parentId = 1;
+
+                //[C] Assert
+                var no1 = await context.Notices.Where(m => m.Id == 1).SingleOrDefaultAsync();
+                no1.ParentId = parentId;
+                no1.IsPinned = true; // 공지글로 올리기
+
+                context.Entry(no1).State = EntityState.Modified;
+                context.SaveChanges();
+
+                var repository = new NoticeRepositoryAsync(context, factory);
+                var result = await repository.GetStatus(parentId);
+
+                Assert.AreEqual(1, result.Item1); // Pinned Count == 1
+            }
+
+
+
         }
     }
 

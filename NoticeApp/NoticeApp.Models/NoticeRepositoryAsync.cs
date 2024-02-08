@@ -78,6 +78,13 @@ namespace NoticeApp.Models
             throw new NotImplementedException();
         }
 
-    
+        // 상태
+        public async Task<Tuple<int, int>> GetStatus(int parentId)
+        {
+            var totalRecords = await _context.Notices.Where(m => m.ParentId == parentId).CountAsync();
+            var pinnedRecords = await _context.Notices.Where(m => m.ParentId == parentId && m.IsPinned == true).CountAsync();
+
+            return new Tuple<int, int>(pinnedRecords, totalRecords); //2, 10
+        }
     }
 }
