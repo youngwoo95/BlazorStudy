@@ -36,7 +36,7 @@ namespace NoticeApp.Models
             }
             catch(Exception ex)
             {
-                _logger.LogError($"에러 발생({nameof(AddAsync)}) : {ex.Message}");
+                _logger.LogError($"ERROR ({nameof(AddAsync)}) : {ex.Message}");
             }
 
             return model;
@@ -45,37 +45,83 @@ namespace NoticeApp.Models
         // 출력
         public async Task<List<Notice>> GetAllAsync()
         {
-            return await _context.Notices.OrderByDescending(m => m.Id).ToListAsync();
+            return await _context.Notices.OrderByDescending(m => m.Id)
+                //.Include(m => m.NoticesComments)
+                .ToListAsync();
         }
 
         // 상세
-        public Task<Notice> GetByIdAsync(int id)
+        public async Task<Notice> GetByIdAsync(int id)
         {
-            throw new NotImplementedException();
+            return await _context.Notices
+                //.Include(m => m.NoticesComments)
+                .SingleOrDefaultAsync(m => m.Id == id);
         }
 
         // 수정
-        public Task<bool> EditAsync(Notice model)
+        public async Task<bool> EditAsync(Notice model)
         {
-            throw new NotImplementedException();
+            _context.Notices.Attach(model);
+            _context.Entry(model).State = EntityState.Modified;
+
+            try
+            {
+                return (await _context.SaveChangesAsync() > 0 ? true : false);
+            }
+            catch(Exception ex) 
+            {
+                _logger.LogError($"ERROR ({nameof(EditAsync)}) : {ex.Message}");
+            }
+
+            return false;
         }
 
         // 삭제
-        public Task<bool> DeleteAsync(int id)
+        public async Task<bool> DeleteAsync(int id)
         {
-            throw new NotImplementedException();
+            var model = await _context.Notices
+                .SingleOrDefaultAsync(m => m.Id == id);
+
+            _context.Remove(model);
+
+            try
+            {
+                return (await _context.SaveChangesAsync() > 0 ? true : false);
+            }
+            catch(Exception ex)
+            {
+                _logger.LogError($"ERROR ({nameof(DeleteAsync)}) : {ex.Message}");
+            }
+            
+            return false;
         }
 
         // 페이징
-        public Task<PagingResult<Notice>> GetAllAsync(int skip, int take)
+        public async Task<PagingResult<Notice>> GetAllAsync(int pageIndex, int pageSize)
         {
-            throw new NotImplementedException();
+            var totalRecords = await _context.Notices.CountAsync();
+            var models = await _context.Notices
+                .OrderByDescending(m => m.Id)
+                //.Include(m => m.NoticesComments)
+                .Skip(pageIndex * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
+            return new PagingResult<Notice>(models, totalRecords);
         }
 
         // 부모
-        public Task<PagingResult<Notice>> GetAllByParentIdAsync(int pageIndex, int pageSize, int parentId)
+        public async Task<PagingResult<Notice>> GetAllByParentIdAsync(int pageIndex, int pageSize, int parentId)
         {
-            throw new NotImplementedException();
+            var totalRecords = await _context.Notices.Where(m => m.ParentId == parentId).CountAsync();
+            var models = await _context.Notices
+                .Where(m => m.ParentId == parentId)
+                .OrderByDescending(m => m.Id)
+                //.Include(m => m.NoticesComments)
+                .Skip(pageIndex * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
+            
+            return new PagingResult<Notice>(models, totalRecords);
         }
 
         // 상태
@@ -85,6 +131,30 @@ namespace NoticeApp.Models
             var pinnedRecords = await _context.Notices.Where(m => m.ParentId == parentId && m.IsPinned == true).CountAsync();
 
             return new Tuple<int, int>(pinnedRecords, totalRecords); //2, 10
+        }
+
+        // 삭제 by ParentID
+        public async Task<bool> DeleteAllByParentId(int parentId)
+        {
+            try
+            {
+                var models = await _context.Notices
+                    .Where(m => m.ParentId == parentId)
+                    .ToListAsync();
+
+                foreach(var model in models)
+                {
+                    _context.Notices.Remove(model);
+                }
+
+                return (await _context.SaveChangesAsync() > 0 ? true : false);
+            }
+            catch(Exception ex)
+            {
+                _logger.LogError($"ERROR ({nameof(DeleteAllByParentId)}) : {ex.Message}");
+            }
+
+            return false;
         }
     }
 }
