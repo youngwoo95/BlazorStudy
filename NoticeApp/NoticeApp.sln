@@ -5,9 +5,15 @@ VisualStudioVersion = 17.8.34408.163
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "NoticeApp.SqlServer", "NoticeApp.SqlServer\NoticeApp.SqlServer.sqlproj", "{A3CBE696-5B1F-4EC5-A2DB-35256B88A58C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NoticeApp.Models", "NoticeApp.Models\NoticeApp.Models.csproj", "{7A9B611A-E707-4DD6-80A8-BAD4C8E439BE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NoticeApp.Models", "NoticeApp.Models\NoticeApp.Models.csproj", "{7A9B611A-E707-4DD6-80A8-BAD4C8E439BE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NoticeApp.Models.Tests", "NoticeApp.Models.Tests\NoticeApp.Models.Tests.csproj", "{B0812951-E855-4B36-ABD3-25DD06F31FFD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NoticeApp.Models.Tests", "NoticeApp.Models.Tests\NoticeApp.Models.Tests.csproj", "{B0812951-E855-4B36-ABD3-25DD06F31FFD}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WebApp", "WebApp", "{29B42819-8203-4053-938F-37A0DD8F8080}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WebApi", "WebApi", "{D97B7341-2D5E-4239-B382-55B98BA31172}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NoticeApp.Apis", "NoticeApp.Apis\NoticeApp.Apis.csproj", "{86B0BF4D-1DBE-48CC-AA99-F8499719F51C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,9 +35,16 @@ Global
 		{B0812951-E855-4B36-ABD3-25DD06F31FFD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B0812951-E855-4B36-ABD3-25DD06F31FFD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B0812951-E855-4B36-ABD3-25DD06F31FFD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{86B0BF4D-1DBE-48CC-AA99-F8499719F51C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{86B0BF4D-1DBE-48CC-AA99-F8499719F51C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{86B0BF4D-1DBE-48CC-AA99-F8499719F51C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{86B0BF4D-1DBE-48CC-AA99-F8499719F51C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{86B0BF4D-1DBE-48CC-AA99-F8499719F51C} = {D97B7341-2D5E-4239-B382-55B98BA31172}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {19E3A19C-9188-4F13-9D81-1B1C768495A5}

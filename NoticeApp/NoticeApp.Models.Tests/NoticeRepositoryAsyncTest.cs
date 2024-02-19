@@ -20,8 +20,8 @@ namespace NoticeApp.Models.Tests
             // [0] DbContextOptions<T> Object Creation and ILoggerFacotry Object Creation
             var options = new DbContextOptionsBuilder<NoticeAppDbContext>()
                 //.UseInMemoryDatabase(databaseName: "ArticleApp").Options;
-            .UseInMemoryDatabase(databaseName: $"NoticeApp{Guid.NewGuid()}").Options;
-            //.UseSqlServer("Server=127.0.0.1,1433;database=NoticeApp;uid=rladyddn258;pwd=rladyddn!!95").Options;
+            //.UseInMemoryDatabase(databaseName: $"NoticeApp{Guid.NewGuid()}").Options;
+            .UseSqlServer("Server=127.0.0.1,1433;database=NoticeApp;uid=rladyddn258;pwd=rladyddn!!95").Options;
 
             var serviceProvider = new ServiceCollection().AddLogging().BuildServiceProvider();
             var factory = serviceProvider.GetService<ILoggerFactory>();
