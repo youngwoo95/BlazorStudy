@@ -43,9 +43,9 @@
             try
             {
                 string newFileName = Path.ChangeExtension(Path.GetRandomFileName(), Path.GetExtension(file.Name)); // 업로드할때 파일 암호화 처리
-                string path = Path.Combine(Path.Combine(config.GetValue<string>("FileStorage")!, "tcorey", newFileName));
+                string path = Path.Combine(Path.Combine(config.GetValue<string>("FileStorage")!, "FileServer", newFileName));
 
-                Directory.CreateDirectory(Path.Combine(config.GetValue<string>("FileStorage")!, "tcorey")); // 해당경로에 디렉터리가 존재하지 않으면 생성한다.
+                Directory.CreateDirectory(Path.Combine(config.GetValue<string>("FileStorage")!, "FileServer")); // 해당경로에 디렉터리가 존재하지 않으면 생성한다.
 
                 await using FileStream fs = new(path, FileMode.Create);
                 await file.OpenReadStream(maxFileSize).CopyToAsync(fs); // 파일을 복사한다.
