@@ -8,6 +8,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using YLManager.Logger;
 
 namespace YLManager_Test
 {
@@ -23,8 +24,12 @@ namespace YLManager_Test
 
         private void btnClick_Click(object sender, RoutedEventArgs e)
         {
-            YLManager.Log.LogControl.CreateLogFolder();
-            YLManager.Log.LogControl.CreateSettingFolder();
+            LogControl.CreateLogFolder();
+            LogControl.CreateSettingFolder();
+
+            LogControl.LogMessage("asdgadsg");
+            
+            LogControl.CreateSettingFile("세팅파일12");
         }
     }
 }
