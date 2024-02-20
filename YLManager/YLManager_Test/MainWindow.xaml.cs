@@ -24,12 +24,7 @@ namespace YLManager_Test
 
         private void btnClick_Click(object sender, RoutedEventArgs e)
         {
-            LogControl.CreateLogFolder();
-            LogControl.CreateSettingFolder();
-
-            LogControl.LogMessage("asdgadsg");
             
-            LogControl.CreateSettingFile("세팅파일12");
         }
     }
 }

@@ -3,6 +3,14 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 
+/*
+    LogControl.CreateLogFolder(); // Load에 생성
+    LogControl.CreateSettingFolder(); // Load에 생성
+
+    LogControl.LogMessage("로그메시지"); // 로그메시지 try~catch 에 생성
+    LogControl.CreateSettingFile("세팅파일12"); // 세팅파일 저장버튼에 생성
+*/
+
 namespace YLManager.Logger
 {
     /// <summary>
