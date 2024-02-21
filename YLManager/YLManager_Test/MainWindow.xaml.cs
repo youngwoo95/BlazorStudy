@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using ClosedXML.Excel;
+using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -24,7 +25,7 @@ namespace YLManager_Test
 
         private void btnClick_Click(object sender, RoutedEventArgs e)
         {
-            YLManager.Logger.LogControl.CreateScheduler("C:\\Users\\user\\Documents\\BlazorStudy\\YLManager\\YLManager_Test\\bin\\Debug\\net8.0-windows\\YLManager_Test.exe", "스케줄테스트", "테스트입니다");
+
         }
     }
 }

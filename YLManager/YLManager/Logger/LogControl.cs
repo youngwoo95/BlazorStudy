@@ -142,7 +142,15 @@ namespace YLManager.Logger
         {
             try
             {
-                string filepath = Path.Combine(SettingPath, String.Format("{0}.txt", "SettingFile"));
+                if (!IsAdministrator()) // 관리자 권한으로 실행중인지 여부
+                {
+#if DEBUG
+                    Console.WriteLine("관리자 권한이 아닙니다.");
+#endif
+                    return null;
+                }
+
+                string filepath = Path.Combine(SettingPath, String.Format("{0}.json", "SettingFile"));
 
                 // 일.txt + 로그내용
                 using (StreamWriter writer = new StreamWriter(filepath, false))
