@@ -4,6 +4,10 @@ using System.IO;
 using System.Security.Cryptography;
 using System.Text;
 
+// Createkey 생성 후 --> 어디 변수에 넣어둔뒤
+// Encrytion 실행 --> 암호화된 내용
+// Decrytion 실행 --> 원문
+
 namespace YLManager.Encryption
 {
     /// <summary>
