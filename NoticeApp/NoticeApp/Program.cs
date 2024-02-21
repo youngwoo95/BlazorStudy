@@ -23,7 +23,8 @@ builder.Services.AddScoped<AuthenticationStateProvider, RevalidatingIdentityAuth
 builder.Services.AddSingleton<WeatherForecastService>();
 
 // NoticeAppDbContext.cs Inject : New DbContext Add
-builder.Services.AddEntityFrameworkSqlServer().AddDbContext<NoticeAppDbContext>(options => options.UseSqlServer("Server=127.0.0.1,1433;database=NoticeApp;uid=rladyddn258;pwd=rladyddn!!95"));
+builder.Services.AddEntityFrameworkSqlServer().AddDbContext<NoticeAppDbContext>(options => options.UseSqlServer("Server=127.0.0.1,1433;database=NoticeApp;uid=rladyddn258;pwd=rladyddn!!95"), ServiceLifetime.Transient);
+
 /* 공지사항(NoticeApp) 관련 의존성(종속성) 주입 관련 코드만 따로 모아서 관리 */
 // INoticeRepositoryAsync.cs Inject : DI Container에 서비스(리포지토리) 등록
 builder.Services.AddTransient<INoticeRepositoryAsync, NoticeRepositoryAsync>();
