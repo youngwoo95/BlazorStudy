@@ -45,6 +45,8 @@
     </div>
 </EditForm>
 
+
+
 @code{
     ExampleModel MyModel = new ExampleModel();
 
@@ -55,6 +57,9 @@
     {
         int.TryParse(SelectId, out int selected);
         MyModel.Id = selected;
+
+        // 일반 텍스트에 조건절
+        //MyModel.Id = (this.MyModel.Id == 1) ? 2 : 3;
 
         JSRuntime.InvokeAsync<object>("alert", $"ID : {MyModel.Id} \r Title : {MyModel.Title} \r Content : {MyModel.Content}");
     }
