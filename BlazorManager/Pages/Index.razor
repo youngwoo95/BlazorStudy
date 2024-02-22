@@ -1,9 +1,61 @@
 ﻿@page "/"
+@using BlazorManager.Data.Models
+
+@inject IJSRuntime JSRuntime
 
 <PageTitle>Index</PageTitle>
 
-<h1>Hello, world!</h1>
+<h5>UI 사용예제</h5>
 
-Welcome to your new app.
+<hr/>
+<i>*EditForm 사용</i>
 
-<SurveyPrompt Title="How is Blazor working for you?" />
+<EditForm Model="MyModel" OnValidSubmit="FormSubmit">
+    <DataAnnotationsValidator></DataAnnotationsValidator>
+    <div>
+        <label>아이디: </label>
+        <input type="text" placeholder="ID를 입력해주세요" @bind-value="@MyModel.Id"/>
+    </div>
+
+    <div>
+        <label>제목: </label>
+       <InputText class="form-control" placeholder="Enter Title" @bind-Value="@MyModel.Title"></InputText>
+       <ValidationMessage For="@(() => MyModel.Title)" class="form-text text-muted"></ValidationMessage>
+    </div>
+
+    <div>
+        <label>내용: </label>
+        <InputTextArea class="form-control" placeholder="Enter Content" rows="5" @bind-Value="@MyModel.Content"></InputTextArea>
+        <ValidationMessage For="@(() => MyModel.Content)" class="form-text text-muted"></ValidationMessage>
+    </div>
+
+    <div>
+        <label>ComboBox</label>
+        <InputSelect @bind-Value="SelectId" class="form-control">
+            <option value="">--- Select Parent---</option>
+            @foreach(var s in SelectIds)
+            {
+                <option value="@s">@s</option>
+            }
+        </InputSelect>
+    </div>
+
+    <div>
+        <button type="submit" class="btn btn-primary">SUBMIT</button>
+    </div>
+</EditForm>
+
+@code{
+    ExampleModel MyModel = new ExampleModel();
+
+    protected int[] SelectIds = { 1, 2, 3, 4, 5 };
+    public string SelectId { get; set; }
+
+    protected void FormSubmit()
+    {
+        int.TryParse(SelectId, out int selected);
+        MyModel.Id = selected;
+
+        JSRuntime.InvokeAsync<object>("alert", $"ID : {MyModel.Id} \r Title : {MyModel.Title} \r Content : {MyModel.Content}");
+    }
+}
