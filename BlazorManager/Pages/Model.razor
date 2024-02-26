@@ -1,0 +1,65 @@
+﻿@page "/Modal"
+@using BlazorManager.Pages.Component
+@inject IJSRuntime JSRuntime
+
+<h3>Model</h3>
+
+<i>모달팝업 내부 정의 열기</i>
+<input type="button" value="모달팝업 내부꺼 열기" @onclick="OnClick_Modal1" />
+ 
+@if (IsModal1)
+{
+    <div class="modal fade show d-block" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">DELETE</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" @onclick="OnClick_Modal1_Hide">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>Do you really want to delete it?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" @onclick="OnClick_Modal1_OK">Yes</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal" @onclick="@OnClick_Modal1_Hide">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+<hr/>
+<i>이벤트 콜백형 모달팝업 열기</i>
+<input type="button" value="이벤트콜백 모달팝업 열기" @onclick="OnClick_Modal2"/>
+
+<ModalDialog @ref="ModalDialogReference"> </ModalDialog>
+
+@code {
+    private bool IsModal1 { get; set; } = false;
+
+    protected void OnClick_Modal1()
+    {
+        IsModal1 = true;
+    }
+
+    protected void OnClick_Modal1_Hide()
+    {
+        IsModal1 = false;
+    }
+
+    protected void OnClick_Modal1_OK()
+    {
+        JSRuntime.InvokeAsync<object>("alert", "YES버튼 클릭");
+        IsModal1 = false;
+    }
+
+    public ModalDialog ModalDialogReference{ get; set; }
+
+    protected void OnClick_Modal2()
+    {
+        ModalDialogReference.Show();
+    }
+
+}
