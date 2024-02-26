@@ -36,5 +36,6 @@ namespace NoticeApp.Models
         Task<bool> DeleteAsync(int id); // 삭제
         Task<PagingResult<T>> GetAllAsync(int skip, int take); // 페이징
         Task<PagingResult<T>> GetAllByParentIdAsync(int pageIndex, int pageSize, int parentId); // 부모
+        Task<PagingResult<T>> SearchAllAsync(int skip, int take, string searchQuery); // 검색기능
     }
 }

@@ -15,7 +15,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WebApi", "WebApi", "{D97B73
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NoticeApp.Apis", "NoticeApp.Apis\NoticeApp.Apis.csproj", "{86B0BF4D-1DBE-48CC-AA99-F8499719F51C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NoticeApp", "NoticeApp\NoticeApp.csproj", "{27299502-A5A8-4FCD-A31B-2949592D5A54}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NoticeApp", "NoticeApp\NoticeApp.csproj", "{27299502-A5A8-4FCD-A31B-2949592D5A54}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

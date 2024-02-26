@@ -24,7 +24,14 @@ namespace NoticeApp.Pages.Notices
 
         protected override async Task OnInitializedAsync()
         {
-            await DisplayData();
+            if(this.searchQuery != "")
+            {
+                await DisplayData();
+            }
+            else
+            {
+                await SearchData();
+            }
         }
 
         private async Task DisplayData()
@@ -36,6 +43,15 @@ namespace NoticeApp.Pages.Notices
             models = resultSet.Records.ToList();
         }
 
+        private async Task SearchData()
+        {
+            var resultSet = await NoticeRepositoryAsyncReference.SearchAllAsync(pager.PageIndex, pager.PageSize, this.searchQuery);
+            pager.RecordCount = resultSet.TotalRecords;
+            models = resultSet.Records.ToList();
+        }
+
+
+
         protected void NameClick(int id)
         {
             NavigationManagerReference.NavigateTo($"/Notices/Details/{id}");
@@ -46,10 +62,28 @@ namespace NoticeApp.Pages.Notices
             pager.PageIndex = pageIndex;
             pager.PageNumber = pageIndex + 1;
 
-            await DisplayData(); // 다시호출
-            
+            if (this.searchQuery == "")
+            {
+                await DisplayData();
+            }
+            else
+            {
+                await SearchData();
+            }
+
             StateHasChanged(); // Refresh
-        } 
+        }
+
+        private string searchQuery;
+
+        protected async void Search(string Query)
+        {
+            this.searchQuery = Query;
+
+            await SearchData();
+        }
+
+
 
     }
 }
