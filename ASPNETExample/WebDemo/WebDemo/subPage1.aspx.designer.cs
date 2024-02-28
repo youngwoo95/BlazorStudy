@@ -11,7 +11,7 @@ namespace WebDemo
 {
 
 
-    public partial class _default
+    public partial class subPage1
     {
 
         /// <summary>
@@ -33,30 +33,12 @@ namespace WebDemo
         protected global::System.Web.UI.WebControls.Button Button1;
 
         /// <summary>
-        /// CheckBox1 컨트롤입니다.
+        /// GridView1 컨트롤입니다.
         /// </summary>
         /// <remarks>
         /// 자동 생성 필드입니다.
         /// 수정하려면 디자이너 파일에서 코드 숨김 파일로 필드 선언을 이동하세요.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.CheckBox CheckBox1;
-
-        /// <summary>
-        /// Image1 컨트롤입니다.
-        /// </summary>
-        /// <remarks>
-        /// 자동 생성 필드입니다.
-        /// 수정하려면 디자이너 파일에서 코드 숨김 파일로 필드 선언을 이동하세요.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Image Image1;
-
-        /// <summary>
-        /// Button2 컨트롤입니다.
-        /// </summary>
-        /// <remarks>
-        /// 자동 생성 필드입니다.
-        /// 수정하려면 디자이너 파일에서 코드 숨김 파일로 필드 선언을 이동하세요.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button Button2;
+        protected global::System.Web.UI.WebControls.GridView GridView1;
     }
 }
