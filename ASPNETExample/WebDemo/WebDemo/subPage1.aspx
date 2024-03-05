@@ -12,7 +12,9 @@
         <div>
             <h2>서브 페이지</h2>
 
-            <asp:Button ID="Button1" runat="server" Text="사원정보 보기" Width="200px" Height="100px" OnClick="Button1_Click"/>
+            <asp:TextBox ID="txtName" runat="server" width="200px" Height="30px" placeholder="이름을 입력해주세요"/>
+            <br />
+            <asp:Button ID="Button1" runat="server" Text="사원정보 검색" Width="200px" Height="30px" OnClick="Button1_Click"/>
 
             <br />
             <br />
