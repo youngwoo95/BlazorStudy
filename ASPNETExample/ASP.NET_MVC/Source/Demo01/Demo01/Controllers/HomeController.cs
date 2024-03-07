@@ -1,8 +1,11 @@
-﻿using System;
+﻿using Demo01.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+
+
 
 // HomeController는 모든 웹프로그램의 시작점이다.
 // Request 요청을 가장먼저 받는곳이 Controller이다.
@@ -34,25 +37,42 @@ namespace Demo01.Controllers
             return View();
         }
 
+        /*
+        HTTP GET 요청 : 브라우저의 링크 클릭시 요청방식
 
+        HTTP POST 요청 : Html.BeginForm() --> 메서드를 통해서 렌더링 된 폼은 POST로 요청되도록 하고 있다.
+        */
+
+        /* GET 방식으로 넘어왔을 때 처리 */
+        [HttpGet]
         public ViewResult TestForm()
         {
             return View();
         }
 
-         /*
-         컨트롤러의 Index() 메서드에서 View() 메서드를 호출하면
-         
-         MVC 프레임워크는 Views/Home/Index.cshtml파일(뷰파일)을 찾는다.
-         그 다음에는 Razor 뷰엔진 에게 Index.cshtml 파일을 파싱할 것을 요청을 한다.
-         
-         Razor 는 해당 파일을 분석 하면서 Razor 표현식을 찾아 처리한다.
+        /* POST 방식을 넘어왔을 때 처리*/
+        
+        [HttpPost]
+        public ViewResult TestForm(MemberResponse memberResponse)
+        {
+            return View("demoView", memberResponse); // demoView를 찾아서 렌더링을 한 후 memberResponse 객체를 전달하라는 의미
+        }
+        
 
-         그리고 그 결과의 HTML을 생성하여 브라우저로 전송한다.
 
-         컨트롤러(Controller)는 특정 데이터를 뷰로 전달해주는 작업을 하고, 
-         뷰(View)는 전달 받은 데이터를 HTML로 렌더링하는 작업을 한다.
-         */
+        /*
+        컨트롤러의 Index() 메서드에서 View() 메서드를 호출하면
+
+        MVC 프레임워크는 Views/Home/Index.cshtml파일(뷰파일)을 찾는다.
+        그 다음에는 Razor 뷰엔진 에게 Index.cshtml 파일을 파싱할 것을 요청을 한다.
+
+        Razor 는 해당 파일을 분석 하면서 Razor 표현식을 찾아 처리한다.
+
+        그리고 그 결과의 HTML을 생성하여 브라우저로 전송한다.
+
+        컨트롤러(Controller)는 특정 데이터를 뷰로 전달해주는 작업을 하고, 
+        뷰(View)는 전달 받은 데이터를 HTML로 렌더링하는 작업을 한다.
+        */
 
 
 

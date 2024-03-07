@@ -23,6 +23,28 @@
 </head>
 <body>
     <div>
+
+        <!-- 아래와 같음
+        <form action="/Home/TestForm" method="post">
+            ..
+        </form>
+        -->
+        <!--Form 태그의 시작을 알림 -->
+        @using (Html.BeginForm())
+        {
+            <p> 이 름: @Html.TextBoxFor(a => a.Name)</p> // <input id = "Name" name = "Name" type="text" value=""/>
+            <p> 이메일 : @Html.TextBoxFor(a => a.Email)</p>
+            <p> 전화번호 : @Html.TextBoxFor(a => a.Tel)</p>
+            <p>
+                출석여부 : @Html.DropDownListFor(a => a.Attend, new[]{
+                      new SelectListItem() {Text = "Yes", Value = bool.TrueString},
+                      new SelectListItem() {Text = "No", Value = bool.FalseString},
+                    }, "선택하세요")
+            </p>
+
+            <input type="submit" value="확인" />
+        }
+
     </div>
 </body>
 </html>
