@@ -20,7 +20,21 @@
 <body>
     <div> 
         @*Hello World*@
-        @ViewBag.Insa 되세요!!  <!-- Razor 표현식 -->
+        <p>
+            @ViewBag.Insa 되세요!!  <!-- Razor 표현식 -->
+        </p>
+
+        <!--
+            Html.ActionLink를 HTML 헬퍼메서드라고 한다.
+            ActionLink 메소드는 두개의 매개변수를 사용하는데,
+            첫번째 매개변수는 링크 텍스트, 두번째 매개변수는 실행될 액션 명
+        -->
+
+        <!-- <a> 태그와 동일 -->
+        @Html.ActionLink("폼 링크", "TestForm"); <!-- (보여질이름, 컨트롤러 메서드이름) -->
+
+
+
     </div>
 </body>
 </html>

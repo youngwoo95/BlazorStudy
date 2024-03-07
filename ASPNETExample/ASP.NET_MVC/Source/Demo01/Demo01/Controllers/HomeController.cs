@@ -35,6 +35,28 @@ namespace Demo01.Controllers
         }
 
 
+        public ViewResult TestForm()
+        {
+            return View();
+        }
+
+         /*
+         컨트롤러의 Index() 메서드에서 View() 메서드를 호출하면
+         
+         MVC 프레임워크는 Views/Home/Index.cshtml파일(뷰파일)을 찾는다.
+         그 다음에는 Razor 뷰엔진 에게 Index.cshtml 파일을 파싱할 것을 요청을 한다.
+         
+         Razor 는 해당 파일을 분석 하면서 Razor 표현식을 찾아 처리한다.
+
+         그리고 그 결과의 HTML을 생성하여 브라우저로 전송한다.
+
+         컨트롤러(Controller)는 특정 데이터를 뷰로 전달해주는 작업을 하고, 
+         뷰(View)는 전달 받은 데이터를 HTML로 렌더링하는 작업을 한다.
+         */
+
+
+
+
         // Home, / 모두다 Index()로 라우팅처리된다.
         //public string Index()
         //{
