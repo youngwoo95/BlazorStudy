@@ -1,0 +1,12 @@
+﻿body {
+}
+
+.input-validation-error {
+    background-color: crimson;
+    border: 1px solid red;
+}
+
+.validation-summary-errors {
+    font-weight: bold;
+    color: red;
+}

@@ -19,6 +19,7 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
+    <link href="~/Content/Styles.css" rel="stylesheet" type="text/css"/>
     <title>TestForm</title>
 </head>
 <body>
@@ -32,6 +33,7 @@
         <!--Form 태그의 시작을 알림 -->
         @using (Html.BeginForm())
         {
+            @Html.ValidationSummary()
             <p> 이 름: @Html.TextBoxFor(a => a.Name)</p> // <input id = "Name" name = "Name" type="text" value=""/>
             <p> 이메일 : @Html.TextBoxFor(a => a.Email)</p>
             <p> 전화번호 : @Html.TextBoxFor(a => a.Tel)</p>
@@ -48,3 +50,12 @@
     </div>
 </body>
 </html>
+
+
+@*
+    유효성 검사에 성공 했을 경우 생성되는 HTML
+    <input data-val="true" data-val_required="당신의 이름을 입력하세요" id="Name" name="Name" type="text" value="">
+
+    유효성 검사에 실패했을 경우 생성되는 HTML
+    <input class="input-validation-error" data-val="true" data-val-required="당신의 이름을 입력하세요" id="Name" name="Name" type="text" value="">
+*@

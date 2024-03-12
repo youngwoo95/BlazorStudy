@@ -14,6 +14,14 @@
 <body>
     <div> 
         <h2> 안녕하세요!! @Model.Name 님 </h2>
+        @if (Model.Attend == true)
+        {
+            @:출석
+        }
+        else
+        {
+            @:결석
+        }
     </div>
 </body>
 </html>
