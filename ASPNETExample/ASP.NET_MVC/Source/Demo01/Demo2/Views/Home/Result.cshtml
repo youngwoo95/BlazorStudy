@@ -1,0 +1,21 @@
+﻿@* String을 넘겨주기 때문에 @model String 으로 선언하였음. *@
+@* 만약 모델을 넘겨줄 경우 모델클래스를 선언해주면 된다. *@
+
+@model String
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Result</title>
+</head>
+<body>
+    <div>
+        @Model
+    </div>
+</body>
+</html>
