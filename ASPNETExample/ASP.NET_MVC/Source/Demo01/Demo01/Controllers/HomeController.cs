@@ -51,11 +51,25 @@ namespace Demo01.Controllers
         }
 
         /* POST 방식을 넘어왔을 때 처리*/
-        
+        /*
+            모델 바인딩(Model Binding)의 동작
+            
+            HTML input 태그의 name 속성을 이용해서 memberResponse의 인스턴스의 속성으로 설정하여 인스턴스를 만든다.
+            다음으로, 만들어진 몾델의 인스턴스가 액션 메서드의 매개변수로 전달된다.
+         */
         [HttpPost]
         public ViewResult TestForm(MemberResponse memberResponse)
         {
-            return View("demoView", memberResponse); // demoView를 찾아서 렌더링을 한 후 memberResponse 객체를 전달하라는 의미
+            if (ModelState.IsValid) // 유효성 검사를 통과했을 경우
+            {
+                return View("demoView", memberResponse); // demoView를 찾아서 렌더링을 한 후 memberResponse 객체를 전달하라는 의미
+            }
+            else
+            {
+                return View();
+            }
+
+            
         }
         
 
