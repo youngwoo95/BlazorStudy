@@ -17,6 +17,7 @@ namespace Demo2.Controllers
 
         public ViewResult AutoProperty()
         {
+            // Product 객체를 생성
             Product product = new Product();
             product.Name = "pd_01"; // 상품의 이름
 
@@ -26,6 +27,42 @@ namespace Demo2.Controllers
             return View("Result", (object)$"상품명: {productName}"); // 두번째 인자를 넘길때 Object로 형변환 해서 넘겨야 한다.
         }
 
+        public ViewResult CreateProduct()
+        {
+            Product product = new Product();
+            
+            // 속성값 설정하기
+            product.ProductID = 2000;
+            product.Cat = "Sports";
+            product.Name = "양말";
+            product.ProdDesc = "축구용 양말";
+            product.Price = 10000;
+
+            return View("Result", (object)String.Format($"카테고리 : {product.Cat}"));
+        }
+
+        public ViewResult CreateCollection()
+        {
+            string[] strArray = { "사과", "수박", "포도", "오렌지" };
+
+            List<int> myList = new List<int>
+            {
+               100,
+               200,
+               300,
+               400
+            };
+
+            Dictionary<string, int> dic = new Dictionary<string, int>
+            {
+                { "사과", 11},
+                { "수박", 22},
+                { "포도", 33},
+                { "오렌지",44}
+            };
+
+            return View("Result", (object)strArray[2]);
+        }
 
     }
 }
