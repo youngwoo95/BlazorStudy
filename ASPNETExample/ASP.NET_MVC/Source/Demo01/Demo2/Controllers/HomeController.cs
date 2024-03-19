@@ -64,6 +64,63 @@ namespace Demo2.Controllers
             return View("Result", (object)strArray[2]);
         }
 
+        public ViewResult UseExtMethod()
+        {
+            // 클래스를 이용하는 방법
+            ShopCart cart = new ShopCart
+            {
+                ProdList = new List<Product>
+                {
+                    new Product() { Name = "참치", Price = 10000 },
+                    new Product() { Name = "햄", Price = 12000 },
+                    new Product() { Name = "라면", Price = 5000 },
+                    new Product() { Name = "맥주", Price = 20000 }
+                }
+            };
+            //return View("Result", (object)String.Format($"총 합계는 : {cart.TotPrice()} 입니다."));
+
+            // 인터페이스를 이용하는 방법
+            IEnumerable<Product> ProdList = new ShopCart
+            {
+                ProdList = new List<Product>
+                {
+                    new Product() { Name = "참치", Price = 10000 },
+                    new Product() { Name = "햄", Price = 12000 },
+                    new Product() { Name = "라면", Price = 5000 },
+                    new Product() { Name = "맥주", Price = 20000 }
+                }
+            };
+
+            /*
+            int total = 0;
+            foreach (var item in ProdList)
+            {
+                total += item.Price;
+            }
+
+            return View("Result", (object)String.Format($"총 합계는 : {total} 입니다."));
+            */
+
+            // 배열을 이용하는 방법
+            Product[] prodArray =
+            {
+                new Product() { Name = "참치", Price = 10000 },
+                new Product() { Name = "햄", Price = 12000 },
+                new Product() { Name = "라면", Price = 5000 },
+                new Product() { Name = "맥주", Price = 20000 }
+            };
+
+            int total = 0;
+            foreach (var item in prodArray)
+            {
+                total += item.Price;
+            }
+
+            return View("Result", (object)String.Format($"총 합계는 : {total} 입니다."));
+
+
+        }
+
     }
 }
 
