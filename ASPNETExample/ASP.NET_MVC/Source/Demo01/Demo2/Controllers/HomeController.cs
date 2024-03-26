@@ -121,6 +121,44 @@ namespace Demo2.Controllers
 
         }
 
+        public ViewResult UseFilterMethod()
+        {
+            IEnumerable<Product> products = new ShopCart
+            {
+                ProdList = new List<Product>
+                {
+                    new Product() { Name = "축구공", Cat = "스포츠", Price = 30000 },
+                    new Product() { Name = "참치", Cat = "식료품", Price = 10000 },
+                    new Product() { Name = "농구공", Cat = "스포츠", Price = 50000 },
+                    new Product() { Name = "라면", Cat = "식료품", Price = 5000 }
+                }
+            };
+
+            Func<Product, bool> catFilter = delegate (Product prod)
+            {
+                return prod.Cat == "스포츠";
+            };
+
+            int total = 0;
+            foreach(Product prod in products.Filter(catFilter))
+            {
+                total += prod.Price;
+            }
+
+
+            /*
+            foreach(Product prod in products.FilterCategory("스포츠"))
+            {
+                total += prod.Price;
+            }
+            */
+
+            return View("Result",(object)String.Format($"필터 합계는 : {total} 입니다."));
+        }
+
+
+
+
     }
 }
 

@@ -32,5 +32,30 @@ namespace Demo2.Models
 
             return tot;
         }
+
+        public static IEnumerable<Product> FilterCategory(this IEnumerable<Product> prodEnum, string catParam)
+        {
+            foreach(Product prod in prodEnum)
+            {
+                if(prod.Cat == catParam)
+                {
+                    yield return prod;
+                }
+            }
+        }
+
+        public static IEnumerable<Product> Filter(this IEnumerable<Product> prodEnum, Func<Product, bool> selParam)
+        {
+            foreach(Product prod in prodEnum)
+            {
+                if (selParam(prod))
+                {
+                    yield return prod;
+                }
+            }
+        }
+
+
+
     }
 }
