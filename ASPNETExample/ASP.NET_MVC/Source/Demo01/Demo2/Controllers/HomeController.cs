@@ -218,6 +218,7 @@ namespace Demo2.Controllers
                 new Product { Name = "세탁기", Cat="가전", Price = 1500000}
             };
 
+            //--------------------------------------------
             // 쿼리 결과를 저장하기 위한 배열 선언
             //Product[] queryProducts = new Product[3];
 
@@ -230,8 +231,9 @@ namespace Demo2.Controllers
             // 세개의 항목의 결과를 얻어오기
             //Array.Copy(products, queryProducts, 3);
 
-            // 결과를 작성
+            //--------------------------------------------
 
+            // 결과를 작성
             //StringBuilder result = new StringBuilder();
 
             //foreach (Product prod in queryProducts)
@@ -239,26 +241,44 @@ namespace Demo2.Controllers
             //    result.AppendFormat($"가격 : {prod.Price}");
             //}
 
-            // LINQ를 이용한 쿼리
-            var queryProducts = from pd in products
-                                orderby pd.Price descending
-                                select new
+            // LINQ를 이용한 쿼리(Query Syntax: 질의 구문)
+            //var queryProducts = from pd in products
+            //                    orderby pd.Price descending
+            //                    select new
+            //                    {
+            //                        pd.Name,
+            //                        pd.Price
+            //                    };
+
+
+            // LINQ의 확장 메서드 이용하기
+            var queryProducts = products.OrderByDescending(x => x.Price)
+                                .Take(3)
+                                .Select(x => new
                                 {
-                                    pd.Name,
-                                    pd.Price
-                                };
+                                    x.Name,
+                                    x.Price
+                                });
+
 
             // 결과물 작성
-            int count = 0;
+            // int count = 0; // Query Syntax를 이용했을 때
             StringBuilder result = new StringBuilder();
 
-            foreach (var item in queryProducts)
+            // Query SynTax를 이용했을 때
+            //foreach (var item in queryProducts)
+            //{
+            //    result.AppendFormat($"가격 : {item.Price}");
+            //    if (++count == 3)
+            //    {
+            //        break;
+            //    }
+            //}
+
+            // LINQ의 확장메서드를 이용했을 때
+            foreach(var pd in queryProducts)
             {
-                result.AppendFormat($"가격 : {item.Price}");
-                if (++count == 3)
-                {
-                    break;
-                }
+                result.AppendFormat($"가격 : {pd.Price}");
             }
 
             return View("Result", (object)result.ToString());
@@ -297,3 +317,32 @@ public ActionResult Index()
     return View();
 }
 */
+
+
+/*
+    [LINQ의 확장메서드]
+    
+    LINQ의 확장 메서드를 사용하기 위해서는 System.Linq 네임스페이스를 추가한다. (LINQ확장 메서드 모두 이 네임 스페이스 안에 존재한다.)
+    컨트롤러에서는 자동으로 추가하지만 MVC 프로젝트의 다른 곳에서는 직접 추가해줘야 함.
+    
+        - All                                               : 데이터 소스의 모든 항목이 지정한 조건과 일치하면 True를 반환
+        - Any                                               : 데이터 소스의 항목 중 하나라도 지정한 조건과 일치하면 True를 반환
+        - Contains                                          : 데이터 소스에 지정한 항목이나 값이 존재하면 True를 반환
+        - Count                                             : 데이터 소스에 존재하는 항목의 개수를 반환한다.
+        - First                                             : 데이터 소스의 첫번째 항목을 가져온다.
+        - FirstOrDefault                                    : 데이터 소스의 첫번째 항목을 가져오지만 만일 항목이 하나라도 존재하지 않으면 기본값을 가져온다.
+        - Last                                              : 데이터 소스의 마지막 항목을 가져온다.(반환한다)
+        - LastOrDefault                                     : 데이터 소스의 마지막 항목을 가져오지만, 만일 항목이 하나도 존재하지 않으면 기본값을 가져온다.
+        - Max & Min                                         : 람다식에서 지정한 최대 최소값을 가져온다.
+        - OrderBy & OrderByDesending                        : 람다 식에 의해서 반환된 값을 기준으로 데이터 소스를 정렬한다.
+        - Reverse                                           : 데이터 소스에 존재하는 항목들의 순서를 뒤집는다.
+        - Select                                            : 질의의 결과를 반영한다.
+        - SelectMany                                        : 각 데이터의 항목을 단일 시퀀스로 만든다.
+        - Single                                            : 데이터 소스에서 첫번째 항목을 반환한다. 만일 하나이상 항목이 존재하면 예외를 던진다.
+        - SingleOrDefault                                   : 데이터 소스에서 첫번째 항목을 반환한다. 만일 항목이 하나도 존재하지 않는 경우에는 기본값을 반환하고, 하나이상 항목이 존재하면 예외를 던진다.
+        - Skip, SkipWhile                                   : 지정한 개수만큼 항목을 건너뛴다. 또는 지정한 조건이 있으면 그 조건에 해당하는 항목을 건너뛴다.
+        - Sum                                               : 조건에 의해서 선택한 항목의 합계를 구한다.
+        - Take, TakeWhile                                   : 데이터 소스의 시작부터 지정한 개수의 항목을 선택하거나 지정한 조건이 일치하는 항목을 선택한다.
+        - ToArray, ToDictionary ToList                      : 데이터 소스를 배열이나 다른 컬렉션 형식으로 변환한다.
+        - Where                                             : 지정한 조건과 일치하지 않는 항목들을 필터링 한다.
+ */
