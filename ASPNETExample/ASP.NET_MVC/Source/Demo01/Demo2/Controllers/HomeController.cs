@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
+using System.Text;
 using System.Web;
 using System.Web.Mvc;
 using Demo2.Models;
+using System.Text;
 
 namespace Demo2.Controllers
 {
@@ -130,21 +133,51 @@ namespace Demo2.Controllers
                     new Product() { Name = "축구공", Cat = "스포츠", Price = 30000 },
                     new Product() { Name = "참치", Cat = "식료품", Price = 10000 },
                     new Product() { Name = "농구공", Cat = "스포츠", Price = 50000 },
-                    new Product() { Name = "라면", Cat = "식료품", Price = 5000 }
+                    new Product() { Name = "라면", Cat = "식료품", Price = 5000 },
+                    new Product() { Name = "야구공", Cat = "스포츠", Price = 10000 },
+                    new Product() { Name = "테니스공", Cat = "스포츠", Price = 5000 }
                 }
             };
 
+            // var : 명시적으로 변수의 형식을 지정하지 않아도 지역 변수를 선언 하늗네, 이러한 기능을
+            // 암시적 형식(Implicit Typing), 묵시적 형식, 형식 추론(Type Inference) 이라고 한다.
+
+            /*
+            var myProduct = new Product
+            {
+                Name = "테니스공",
+                Cat = "스포츠",
+                Price = 5000
+            };
+            
+             myProduct와 같은 개체를 익명형식 개체라고 한다.
+             익명형식 개체는 이니셜라이저에 의해서 정의된 속성만 값을 얻거나 설정할 수 있다.
+            */
+
+            // 델리게이트 표현
+            /*
             Func<Product, bool> catFilter = delegate (Product prod)
             {
                 return prod.Cat == "스포츠";
             };
+            */
+
+            // 람다식 표현
+            /*
+            Func<Product, bool> catFilter = prod => prod.Cat == "스포츠";
 
             int total = 0;
             foreach(Product prod in products.Filter(catFilter))
             {
                 total += prod.Price;
             }
+            */
 
+            int total = 0;
+            foreach(Product prod in products.Filter(prod=> prod.Cat == "스포츠" && prod.Price >= 20000))
+            {
+                total += prod.Price;
+            }
 
             /*
             foreach(Product prod in products.FilterCategory("스포츠"))
@@ -156,8 +189,25 @@ namespace Demo2.Controllers
             return View("Result",(object)String.Format($"필터 합계는 : {total} 입니다."));
         }
 
+        public ViewResult CreateImplicitObj()
+        {
+            var myProduct = new[]
+            {
+                new { Name = "참치", Cat = "식료품"},
+                new { Name = "양말", Cat = "의류"},
+                new { Name = "오렌지", Cat="과일"}
+            };
 
+            StringBuilder result = new StringBuilder();
 
+            foreach(var item in myProduct)
+            {
+                result.Append(item.Name).Append(" ");
+            };
+
+            return View("Result", (object)result.ToString());
+        }
+        
 
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Web;
@@ -35,8 +36,10 @@ namespace Demo2.Models
 
         public static IEnumerable<Product> FilterCategory(this IEnumerable<Product> prodEnum, string catParam)
         {
-            foreach(Product prod in prodEnum)
+            
+            foreach (Product prod in prodEnum)
             {
+                Debug.WriteLine("이게탐");
                 if(prod.Cat == catParam)
                 {
                     yield return prod;
