@@ -208,6 +208,61 @@ namespace Demo2.Controllers
             return View("Result", (object)result.ToString());
         }
         
+        public ViewResult QueryProducts()
+        {
+            Product[] products =
+            {
+                new Product { Name = "축구화", Cat = "스포츠", Price = 100000},
+                new Product { Name = "패딩점퍼", Cat = "의류", Price = 300000},
+                new Product { Name = "농구공", Cat="스포츠", Price = 30000},
+                new Product { Name = "세탁기", Cat="가전", Price = 1500000}
+            };
+
+            // 쿼리 결과를 저장하기 위한 배열 선언
+            //Product[] queryProducts = new Product[3];
+
+            // 정렬
+            //Array.Sort(products, (prod1, prod2) =>
+            //{
+            //    return Comparer<int>.Default.Compare(prod1.Price, prod2.Price);
+            //});
+
+            // 세개의 항목의 결과를 얻어오기
+            //Array.Copy(products, queryProducts, 3);
+
+            // 결과를 작성
+
+            //StringBuilder result = new StringBuilder();
+
+            //foreach (Product prod in queryProducts)
+            //{
+            //    result.AppendFormat($"가격 : {prod.Price}");
+            //}
+
+            // LINQ를 이용한 쿼리
+            var queryProducts = from pd in products
+                                orderby pd.Price descending
+                                select new
+                                {
+                                    pd.Name,
+                                    pd.Price
+                                };
+
+            // 결과물 작성
+            int count = 0;
+            StringBuilder result = new StringBuilder();
+
+            foreach (var item in queryProducts)
+            {
+                result.AppendFormat($"가격 : {item.Price}");
+                if (++count == 3)
+                {
+                    break;
+                }
+            }
+
+            return View("Result", (object)result.ToString());
+        }
 
     }
 }
