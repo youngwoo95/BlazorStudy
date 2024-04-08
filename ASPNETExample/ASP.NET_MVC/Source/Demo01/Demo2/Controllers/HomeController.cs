@@ -260,6 +260,14 @@ namespace Demo2.Controllers
                                     x.Price
                                 });
 
+            var sumvalue = products.Sum(e => e.Price);
+
+            products[2] = new Product
+            {
+                Name = "PC",
+                Cat = "컴퓨터",
+                Price = 800000
+            };
 
             // 결과물 작성
             // int count = 0; // Query Syntax를 이용했을 때
@@ -281,7 +289,8 @@ namespace Demo2.Controllers
                 result.AppendFormat($"가격 : {pd.Price}");
             }
 
-            return View("Result", (object)result.ToString());
+            //return View("Result", (object)result.ToString());
+            return View("Result", (object)String.Format($"합계금액 : {sumvalue}"));
         }
 
     }
@@ -331,18 +340,34 @@ public ActionResult Index()
         - Count                                             : 데이터 소스에 존재하는 항목의 개수를 반환한다.
         - First                                             : 데이터 소스의 첫번째 항목을 가져온다.
         - FirstOrDefault                                    : 데이터 소스의 첫번째 항목을 가져오지만 만일 항목이 하나라도 존재하지 않으면 기본값을 가져온다.
+
         - Last                                              : 데이터 소스의 마지막 항목을 가져온다.(반환한다)
         - LastOrDefault                                     : 데이터 소스의 마지막 항목을 가져오지만, 만일 항목이 하나도 존재하지 않으면 기본값을 가져온다.
+
         - Max & Min                                         : 람다식에서 지정한 최대 최소값을 가져온다.
         - OrderBy & OrderByDesending                        : 람다 식에 의해서 반환된 값을 기준으로 데이터 소스를 정렬한다.
+
         - Reverse                                           : 데이터 소스에 존재하는 항목들의 순서를 뒤집는다.
         - Select                                            : 질의의 결과를 반영한다.
+
         - SelectMany                                        : 각 데이터의 항목을 단일 시퀀스로 만든다.
         - Single                                            : 데이터 소스에서 첫번째 항목을 반환한다. 만일 하나이상 항목이 존재하면 예외를 던진다.
+
         - SingleOrDefault                                   : 데이터 소스에서 첫번째 항목을 반환한다. 만일 항목이 하나도 존재하지 않는 경우에는 기본값을 반환하고, 하나이상 항목이 존재하면 예외를 던진다.
         - Skip, SkipWhile                                   : 지정한 개수만큼 항목을 건너뛴다. 또는 지정한 조건이 있으면 그 조건에 해당하는 항목을 건너뛴다.
+
         - Sum                                               : 조건에 의해서 선택한 항목의 합계를 구한다.
         - Take, TakeWhile                                   : 데이터 소스의 시작부터 지정한 개수의 항목을 선택하거나 지정한 조건이 일치하는 항목을 선택한다.
+
         - ToArray, ToDictionary ToList                      : 데이터 소스를 배열이나 다른 컬렉션 형식으로 변환한다.
         - Where                                             : 지정한 조건과 일치하지 않는 항목들을 필터링 한다.
+ */
+
+
+/*
+    [위의 LINQ 주요 확장 메서드 중에서 지연기능이 있는 메서드]
+    OrderBy, OrderByDescending, Reverse, Select, SelectMany, Skip, SkipWhile, Take, While
+
+    지연기능 : 결과가 나오기 전에 다시 처음부터 질의를 수행하는 기능, 따라서, 현재 상태가 반영된 결과를 얻을 수 있다.    
+    
  */
