@@ -1,0 +1,161 @@
+﻿@page "/TestPage"
+@using BlazorAppTestWasm.Shared
+@inject HttpClient Http
+
+
+<table>
+    <tr>
+        <td>
+            <h1>INSERT</h1>
+            
+            <h3>Name</h3>
+            <input type="text" @bind-value="inputName" placeholder="이름을 입력해주세요" />
+
+            <h3>Age</h3>
+            <input type="text" @bind-value="inputAge" placeholder="나이를 입력해주세요" />
+
+            <input type="button" @onclick="btnINSERT" value="INSERT" />
+        </td>
+        <td>
+            <h1>UPDATE</h1>
+            
+            <h3>ID</h3>
+            <input type="text" @bind-value="targetID" placeholder="ID를 입력해주세요" />
+
+            <h3>Name</h3>
+            <input type="text" @bind-value="inputUpdateName" placeholder="이름을 입력해주세요" />
+
+            <h3>Age</h3>
+            <input type="text" @bind-value="inputUpdateAge" placeholder="나이를 입력해주세요" />
+            
+            <input type="button" @onclick="(async () => await btnUPDATE(int.Parse(targetID)))" value="UPDATE" />
+        </td>
+    </tr>
+</table>
+
+
+
+
+@if (employess == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Age</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var employee in employess)
+            {
+                <tr>
+                    <td>@employee.Id</td>
+                    <td>@employee.Name</td>
+                    <td>@employee.Age</td>
+                    <td>
+                        <input type="submit" value="Delete" @onclick="(async () => await btnDELETE(int.Parse(employee.Id.ToString())))" class="btn btn-danger" />
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+
+@code {
+    private string? inputName;
+    private int inputAge;
+
+    private string? targetID;
+    private string? inputUpdateName;
+    private int? inputUpdateAge;
+
+    private List<Employee>? employess;
+
+    /// <summary>
+    /// 페이지 시작점
+    /// </summary>
+    /// <returns></returns>
+    protected override async Task OnInitializedAsync()
+    {
+        // GET 요청
+        this.employess = await Http.GetFromJsonAsync<List<Employee>>("api/Employee/read"); //GET은 매개변수를 넘길 수 없음.
+    }
+
+    /// <summary>
+    /// INSERT 버튼 이벤트
+    /// </summary>
+    /// <returns></returns>
+    protected async Task btnINSERT()
+    {
+        var model = new Employee()
+        {
+            Name = this.inputName,
+            Age = this.inputAge
+        };
+
+        var response = await Http.PostAsJsonAsync<Employee>("api/Employee/insert", model);
+
+        if (response.IsSuccessStatusCode)
+        {
+            // 정상 코드
+            //this.employess = await Http.GetFromJsonAsync<List<Employee>>("api/Employee/read"); //GET은 매개변수를 넘길 수 없음.
+            //StateHasChanged();
+            await OnAfterRenderAsync(false);
+        }
+    }
+
+    /// <summary>
+    /// UPDATE 버튼 이벤트
+    /// </summary>
+    /// <returns></returns>
+    protected async Task btnUPDATE(int id)
+    {
+        var model = new Employee()
+        {
+            Id = id,
+            Name = inputUpdateName,
+            Age = inputUpdateAge
+        };
+
+        var response = await Http.PutAsJsonAsync<Employee>("api/Employee/update", model);
+
+        if(response.IsSuccessStatusCode)
+        {
+            // 정상 코드
+            //this.employess = await Http.GetFromJsonAsync<List<Employee>>("api/Employee/read"); //GET은 매개변수를 넘길 수 없음.
+            //StateHasChanged();
+            await OnAfterRenderAsync(false);
+        }
+    }
+
+    /// <summary>
+    /// DELETE 버튼 이벤트
+    /// </summary>
+    /// <returns></returns>
+    protected async Task btnDELETE(int id)
+    {
+        var response = await Http.DeleteAsync($"api/Employee/delete/{id}");
+
+        if (response.IsSuccessStatusCode)
+        {
+            // 정상 코드
+            //this.employess = await Http.GetFromJsonAsync<List<Employee>>("api/Employee/read"); //GET은 매개변수를 넘길 수 없음.
+            //StateHasChanged();
+
+            await OnAfterRenderAsync(false);
+        }
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        this.employess = await Http.GetFromJsonAsync<List<Employee>>("api/Employee/read"); //GET은 매개변수를 넘길 수 없음.
+    }
+
+
+}
