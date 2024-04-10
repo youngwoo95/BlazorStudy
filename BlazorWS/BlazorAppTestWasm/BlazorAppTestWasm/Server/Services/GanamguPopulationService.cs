@@ -1,5 +1,6 @@
 ﻿using BlazorAppTestWasm.Server.Interfaces;
 using BlazorAppTestWasm.Server.Models;
+using BlazorAppTestWasm.Shared;
 
 namespace BlazorAppTestWasm.Server.Services
 {

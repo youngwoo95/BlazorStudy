@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace BlazorAppTestWasm.Shared
+﻿namespace BlazorAppWasmTest2.Shared
 {
     public partial class Employee
     {

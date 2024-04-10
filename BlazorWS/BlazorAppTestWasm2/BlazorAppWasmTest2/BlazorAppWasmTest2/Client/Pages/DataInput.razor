@@ -1,0 +1,35 @@
+﻿@page "/DataInput"
+@using BlazorAppWasmTest2.Shared
+@inject HttpClient Http
+
+<RadzenText TextStyle="TextStyle.H4">강남구 인구통계 입력</RadzenText>
+
+<RadzenDataGrid @ref="datagrid" Data="ganamguPopulations">
+    <Columns>
+        <RadzenDataGridColumn TItem="Gnpopulation" Property="AdministrativeAgency" Title="행정구역" Width="140px">
+            <EditTemplate Context="data">
+                <RadzenTextBox @bind-Value="data.AdministrativeAgency" Style="width:100%" />
+            </EditTemplate>
+        </RadzenDataGridColumn>
+    </Columns>
+</RadzenDataGrid>
+
+@code {
+    private RadzenDataGrid<Gnpopulation>? datagrid;
+
+    private IEnumerable<Gnpopulation>? ganamguPopulations;
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            await base.OnInitializedAsync();
+
+            var response = await Http.DeleteAsync("api/GNPopulation/1");
+        }catch(Exception ex)
+        {
+            Console.WriteLine(ex.Message);
+        }
+
+    }
+}

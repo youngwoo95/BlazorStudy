@@ -21,8 +21,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Client\BlazorAppTestWasm.Client.csproj" />
-    <ProjectReference Include="..\Shared\BlazorAppTestWasm.Shared.csproj" />
+    <ProjectReference Include="..\Client\BlazorAppWasmTest2.Client.csproj" />
+    <ProjectReference Include="..\Shared\BlazorAppWasmTest2.Shared.csproj" />
   </ItemGroup>
 
 

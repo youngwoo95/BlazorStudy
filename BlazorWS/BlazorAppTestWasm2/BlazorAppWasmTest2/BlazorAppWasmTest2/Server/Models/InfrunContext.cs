@@ -1,7 +1,10 @@
-﻿using BlazorAppTestWasm.Shared;
+﻿using System;
+using System.Collections.Generic;
+using BlazorAppWasmTest2.Shared;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata;
 
-namespace BlazorAppTestWasm.Server.Models
+namespace BlazorAppWasmTest2.Server.Models
 {
     public partial class InfrunContext : DbContext
     {
@@ -15,7 +18,7 @@ namespace BlazorAppTestWasm.Server.Models
         }
 
         public virtual DbSet<Employee> Employees { get; set; } = null!;
-        public virtual DbSet<GanamguPopulation> GanamguPopulations { get; set; } = null!;
+        public virtual DbSet<Gnpopulation> Gnpopulations { get; set; } = null!;
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -38,10 +41,10 @@ namespace BlazorAppTestWasm.Server.Models
                     .IsUnicode(false);
             });
 
-            modelBuilder.Entity<GanamguPopulation>(entity =>
+            modelBuilder.Entity<Gnpopulation>(entity =>
             {
-                entity.ToTable("ganamgu_population");
-                                
+                entity.ToTable("GNpopulation");
+
                 entity.Property(e => e.Id).HasColumnName("ID");
 
                 entity.Property(e => e.AdministrativeAgency)
@@ -68,6 +71,3 @@ namespace BlazorAppTestWasm.Server.Models
         partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
     }
 }
-
-// Scaffold-DbContext "Host=localhost;Database=DB명;Username=아이디;Password=비밀번호" Npgsql.EntityFrameworkCore.PostgreSQL -force -o Models
-// Scaffold-DbContext  "Data Source=127.0.0.1,1433;Database=Infrun;User Id=rladyddn258;Password=rladyddn!!95" Microsoft.EntityFrameworkCore.SqlServer

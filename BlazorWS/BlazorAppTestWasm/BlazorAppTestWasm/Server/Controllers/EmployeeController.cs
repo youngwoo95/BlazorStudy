@@ -9,7 +9,7 @@ namespace BlazorAppTestWasm.Server.Controllers
     [Route("api/[controller]")] // ==> api/Employee 가 URI가 되는것임.
     [ApiController]
     public class EmployeeController : ControllerBase
-    {
+    { 
         private InfrunContext context = new InfrunContext();
 
         [HttpGet]

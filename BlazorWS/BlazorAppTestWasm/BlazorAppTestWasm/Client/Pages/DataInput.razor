@@ -1,8 +1,157 @@
 ﻿@page "/DataInput"
+@using BlazorAppTestWasm.Shared;
 
-<h3>DataInput</h3>
+@inject HttpClient Http
 
+
+<RadzenText TextStyle="TextStyle.H4">강남구 인구통계 입력</RadzenText>
+
+<RadzenDataGrid @ref="datagrid" Data="ganamguPopulations" AllowPaging="true" PageSize="10" AllowSorting="true" EditMode="DataGridEditMode.Single" 
+TItem="GanamguPopulation" RowCreate="@OnCreateRow" RowUpdate="@OnUpdateRow">
+
+    <Columns>
+        <RadzenDataGridColumn TItem="GanamguPopulation" Property="Id" Title="ID" Width="140px">
+            <EditTemplate Context="data">
+                <RadzenNumeric @bind-Value="data.Id" Style="width:100%"/>
+            </EditTemplate>
+        </RadzenDataGridColumn>
+
+        <RadzenDataGridColumn TItem="GanamguPopulation" Property="AdministrativeAgency" Title="행정구역" Width="140px">
+            <EditTemplate Context="data">
+                <RadzenTextBox @bind-Value="data.AdministrativeAgency" Style="width:100%" />
+            </EditTemplate>
+        </RadzenDataGridColumn>
+
+        <RadzenDataGridColumn TItem="GanamguPopulation" Property="TotalPopulation" Title="인구수(계)" Width="140px">
+            <EditTemplate Context="data">
+                <RadzenNumeric @bind-Value="data.TotalPopulation" Style="width:100%" />
+            </EditTemplate>
+        </RadzenDataGridColumn>
+
+        <RadzenDataGridColumn TItem="GanamguPopulation" Property="MalePopulation" Title="인구수(남)" Width="140px">
+            <EditTemplate Context="data">
+                <RadzenNumeric @bind-Value="data.MalePopulation" Style="width:100%" />
+            </EditTemplate>
+        </RadzenDataGridColumn>
+
+        <RadzenDataGridColumn TItem="GanamguPopulation" Property="FemalePopulation" Title="인구수(여)" Width="140px">
+            <EditTemplate Context="data">
+                <RadzenNumeric @bind-Value="data.FemalePopulation" Style="width:100%" />
+            </EditTemplate>
+        </RadzenDataGridColumn>
+
+        <RadzenDataGridColumn TItem="GanamguPopulation" Property="SexRatio" Title="성비" Width="140px">
+            <EditTemplate Context="data">
+                <RadzenNumeric @bind-Value="data.SexRatio" Style="width:100%" />
+            </EditTemplate>
+        </RadzenDataGridColumn>
+
+        <RadzenDataGridColumn TItem="GanamguPopulation" Property="NumberOfHouseholdes" Title="세대수" Width="140px">
+            <EditTemplate Context="data">
+                <RadzenNumeric @bind-Value="data.NumberOfHouseholdes" Style="width:100%" />
+            </EditTemplate>
+        </RadzenDataGridColumn>
+
+        <RadzenDataGridColumn TItem="GanamguPopulation" Property="NumberOfPeoplePerHousehold" Title="세대당 인구수" Width="140px">
+            <EditTemplate Context="data">
+                <RadzenNumeric @bind-Value="data.NumberOfPeoplePerHousehold" Style="width:100%" />
+            </EditTemplate>
+        </RadzenDataGridColumn>
+
+        <RadzenDataGridColumn TItem="GanamguPopulation" Filterable="false" Sortable="false" TextAlign="TextAlign.Right" Width="150px">
+            
+            <Template Context="data">
+                <!-- 수정 -->
+                <RadzenButton Icon="edit" ButtonStyle="ButtonStyle.Light" Variant="Variant.Flat" Size="ButtonSize.Medium" Click="(() => EditRow(data))" />
+                <!-- 삭제 -->
+                <RadzenButton Icon="delete" ButtonStyle="ButtonStyle.Danger" Variant="Variant.Flat" Size="ButtonSize.Medium" Click="(() => DeleteRow(data))" />
+            </Template>
+
+            
+            
+
+            <!-- 저장버튼 -->
+            <EditTemplate Context="data">
+                <RadzenButton Icon="check" ButtonStyle="ButtonStyle.Success" Variant="Variant.Flat" Size="ButtonSize.Medium" Click="@(()=>SaveRow(data))" />
+            </EditTemplate>
+
+          
+            
+        </RadzenDataGridColumn>
+
+    </Columns>
+</RadzenDataGrid>
+
+<RadzenButton ButtonStyle="ButtonStyle.Success" Icon="add_circle_outline" Text="Add New Row" Click="InsertRow" />
 
 @code {
+    private RadzenDataGrid<GanamguPopulation>? datagrid;
+
+    private IEnumerable<GanamguPopulation>? ganamguPopulations;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+        ganamguPopulations = await Http.GetFromJsonAsync<List<GanamguPopulation>>("api/GanamguPopulation/read");
+    }
+
+    /// <summary>
+    /// INSERT
+    /// </summary>
+    /// <returns></returns>
+    protected async Task InsertRow()
+    {
+        var newData = new GanamguPopulation();
+        await datagrid.InsertRow(newData);
+
+    }
+
+    /// <summary>
+    /// SAVE
+    /// </summary>
+    /// <param name="data"></param>
+    /// <returns></returns>
+    protected async Task SaveRow(GanamguPopulation data)
+    {
+        await datagrid.UpdateRow(data);
+    }
+
+    /// <summary>
+    /// EDIT
+    /// </summary>
+    /// <param name="data"></param>
+    /// <returns></returns>
+    protected async Task EditRow(GanamguPopulation data)
+    {
+        await datagrid.EditRow(data);
+    }
+
+
+
+    /// <summary>
+    /// DELETE 
+    /// </summary>
+    /// <param name="data"></param>
+    /// <returns></returns>
+    protected async Task DeleteRow(GanamguPopulation data)
+    {
+        var response = await Http.DeleteAsync($"api/GanamguPopulation/{data.Id}");
+
+        ganamguPopulations = await Http.GetFromJsonAsync<List<GanamguPopulation>>("api/GanamguPopulation/read");
+        StateHasChanged();
+
+    }
+
+
+    protected async Task OnCreateRow(GanamguPopulation data)
+    {
+        var response = await Http.PostAsJsonAsync<GanamguPopulation>("api/GanamguPopulation/insert", data);
+    }
+
+    protected async Task OnUpdateRow(GanamguPopulation data)
+    {
+        var response = await Http.PutAsJsonAsync<GanamguPopulation>("api/GanamguPopulation/put", data);
+    }
+
 
 }

@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace BlazorAppTestWasm.Shared
+﻿namespace BlazorAppWasmTest2.Shared
 {
-    public partial class GanamguPopulation
+    public partial class Gnpopulation
     {
         public int Id { get; set; }
         public string AdministrativeAgency { get; set; } = null!;
