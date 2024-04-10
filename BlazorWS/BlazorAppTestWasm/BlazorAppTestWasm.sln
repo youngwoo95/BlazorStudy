@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.9.34607.119
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorAppTestWasm.Server", "BlazorAppTestWasm\Server\BlazorAppTestWasm.Server.csproj", "{1DF4DB82-C264-4266-963B-835F9B4ED0D2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorAppTestWasm.Server", "BlazorAppTestWasm\Server\BlazorAppTestWasm.Server.csproj", "{1DF4DB82-C264-4266-963B-835F9B4ED0D2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorAppTestWasm.Client", "BlazorAppTestWasm\Client\BlazorAppTestWasm.Client.csproj", "{9D4437A8-A467-4690-925F-480196DD4CB5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorAppTestWasm.Client", "BlazorAppTestWasm\Client\BlazorAppTestWasm.Client.csproj", "{9D4437A8-A467-4690-925F-480196DD4CB5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorAppTestWasm.Shared", "BlazorAppTestWasm\Shared\BlazorAppTestWasm.Shared.csproj", "{94C557EA-D221-4FA9-A1DF-E83E145821C5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorAppTestWasm.Shared", "BlazorAppTestWasm\Shared\BlazorAppTestWasm.Shared.csproj", "{94C557EA-D221-4FA9-A1DF-E83E145821C5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
