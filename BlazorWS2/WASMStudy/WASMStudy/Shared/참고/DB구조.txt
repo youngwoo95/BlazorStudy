@@ -1,0 +1,42 @@
+﻿/* 사용자 테이블 */
+create table USERINFO
+(
+	[REQNO] int identity(1,1) primary key not null,
+	[USERID] varchar(25) not null,
+	[USERPW] varchar(25) not null,
+	[CREATEDT] datetime default getdate(),
+	[USERNAME] varchar(25),
+	[PHONENUMBER] varchar(25),
+	[ADDRESS] varchar(100),
+	[COMPID] int,
+	[DEPTID] int
+)
+
+/* 회사 테이블 */
+create table COMPINFO
+(
+	[COMPID] int identity(1,1) primary key not null,
+	[COMPNAME] varchar(25) not null,
+	[ADDRESS] varchar(100),
+	[TEL] varchar(25),
+	[CREATEDT] datetime default getdate(),
+)
+
+/* 부서 테이블 */
+create table DEPTINFO
+(
+	[DEPTID] int identity(1,1) primary key not null,
+	[COMPID] int not null,
+	[DEPTNAME] varchar(25) not null,
+	[CREATEDT] datetime default getdate()
+)
+
+/* USER 테이블 회사ID 외래키 설정 */
+alter table USERINFO
+ADD CONSTRAINT [COMP_FK]
+FOREIGN KEY(COMPID) REFERENCES COMPINFO(COMPID);
+
+/* USER 테이블 부서ID 외래키 설정 */
+alter table USERINFO
+ADD CONSTRAINT [DEPT_FK]
+FOREIGN KEY(DEPTID) REFERENCES DEPTINFO(DEPTID);

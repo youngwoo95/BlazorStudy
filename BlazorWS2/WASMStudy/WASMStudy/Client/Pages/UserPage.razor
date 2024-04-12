@@ -1,0 +1,92 @@
+﻿@page "/userpage"
+@using WASMStudy.Shared
+@inject HttpClient Http
+@inject IJSRuntime JS
+
+<style>
+    tr, th, td{
+        border: 1px solid black;
+    }
+</style>
+
+<h2>사용자등록관련</h2>
+<div>
+    <span>ID:</span>
+    <input type="text" @bind-value="userinfo!.Userid" placeholder="사용하실 ID를 입력해주세요"/>
+</div>
+<div>
+    <span>PW:</span>
+    <input type="password" @bind-value="userinfo!.Userpw" placeholder="비밀번호를 입력해주세요" />
+</div>
+<div>
+    <span>이름:</span>
+    <input type="text" @bind-value="userinfo!.Username" placeholder="사용자 이름을 입력해주세요"/>
+</div>
+
+<div>
+    <span>전화번호:</span>
+    <input type="text" @bind-value="userinfo.Phonenumber" placeholder="전화번호를 입력해주세요"/>
+</div>
+
+<div>
+    <span>주소:</span>
+    <input type="text" @bind-value="userinfo.Address" placeholder="주소를 입력해주세요"/>
+</div>
+
+<div>
+    <input type="button" value="사용자 저장" @onclick="(async ()=>await SaveAsync_Click(userinfo))" />
+</div>
+
+<table>
+    <tr>
+        <th>REQNO</th>
+        <th>아이디</th>
+        <th>비밀번호</th>
+        <th>이름</th>
+        <th>전화번호</th>
+        <th>주소</th>
+    </tr>
+
+
+</table>
+
+@code {
+    // USER 테이블
+    Userinfo? userinfo;
+    IEnumerable<Userinfo>? UserList;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+
+        userinfo = new(); // USERINFO 테이블 초기화
+
+        UserList = await Http.GetFromJsonAsync<List<Userinfo>>("api/Users");
+
+    }
+
+    /// <summary>
+    /// 사용자 SAVE 버튼
+    /// </summary>
+    /// <param name="userinfo"></param>
+    /// <returns></returns>
+    protected async Task SaveAsync_Click(Userinfo userinfo)
+    {
+        var response = await Http.PostAsJsonAsync<Userinfo>("api/Users/insert", userinfo);
+
+        if (response.IsSuccessStatusCode)
+        {
+            await JS.InvokeVoidAsync("alert", "INSERT 성공");
+        }
+        else
+        {
+            await JS.InvokeVoidAsync("alert", "INSERT 실패");
+        }
+    }
+
+    protected async Task EditAsync_Click(Userinfo userinfo)
+    {
+        
+    }
+
+}

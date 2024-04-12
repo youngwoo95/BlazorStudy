@@ -1,11 +1,19 @@
 using Microsoft.AspNetCore.ResponseCompression;
+using Microsoft.EntityFrameworkCore;
+using WASMStudy.Server.DBContext;
+using WASMStudy.Server.Services;
+using WASMStudy.Server.Services.Interfaces;
+using WASMStudy.Shared;
 
 var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddDbContext<YwdbContext>(options => options.UseSqlServer("Data Source=123.2.156.122,1002;Database=YWDB;User Id=stec;Password=stecdev1234!;TrustServerCertificate=true;"));
 
 // Add services to the container.
 
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
+
+builder.Services.AddTransient<IUsersService, UsersService>();
 
 var app = builder.Build();
 

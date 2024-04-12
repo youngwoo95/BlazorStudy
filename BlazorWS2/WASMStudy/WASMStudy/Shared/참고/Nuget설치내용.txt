@@ -1,0 +1,10 @@
+﻿-- Nuget
+
+ADD) Microsoft.EntityFrameworkCore 7버전
+ADD) Microsoft.EntityFrameworkCore.Design 7버전
+ADD) Microsoft.EntityFrameworkCore.SqlServer 7버전
+ADD) Microsoft.EntityFrameworkCore.Tools 7버전
+
+-- DB 스캐폴드
+
+Scaffold-DbContext  "Data Source=123.2.156.122,1002;Database=YWDB;User Id=stec;Password=stecdev1234!;TrustServerCertificate=true;" Microsoft.EntityFrameworkCore.SqlServer
