@@ -19,14 +19,21 @@ namespace WASMStudy.Server.Controllers
 
         [HttpGet]
 
-        public async Task<IEnumerable<Userinfo>> Get()
+        public async ValueTask<IEnumerable<Userinfo>> Get()
         {
             return await IUserService.GetAllAsync();
         }
 
+        [HttpGet]
+        [Route("select/{id:int}")]
+        public async ValueTask<Userinfo> Select(int id)
+        {
+            return await IUserService.GetByReqNoAsync(id);
+        }
+
         [HttpPost]
         [Route("insert")]
-        public async Task<IActionResult> Post([FromBody]Userinfo model)
+        public async ValueTask<IActionResult> Post([FromBody]Userinfo model)
         {
             if(model == null)
             {
@@ -37,26 +44,50 @@ namespace WASMStudy.Server.Controllers
             {
                 await this.IUserService.AddAsync(model);
                 return Ok();
-            }catch(Exception ex)
+            }
+            catch(Exception ex)
             {
                 return StatusCode(500, ex.Message);
             }
         }
 
+
+        [HttpDelete]
+        [Route("delete/{userid}")]
+        public async ValueTask<IActionResult> Delete(string userid)
+        {
+            Userinfo model = await IUserService.GetByIdAsync(userid);
+           
+            if (model == null)
+            {
+                return BadRequest();
+            }
+
+            try
+            {
+                await this.IUserService.DeleteAsync(model.Reqno);
+                return Ok();
+            }
+            catch(Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+            
+        }
+
         [HttpPut]
         [Route("edit")]
-        public async Task<IActionResult> Update([FromBody] Userinfo info)
+        public async ValueTask<IActionResult> Update([FromBody] Userinfo info)
         {
-            Userinfo model = await IUserService.GetByIdAsync(info.Userid);
 
-            if(model == null)
+            if(info == null)
             {
                 return NotFound();
             }
 
             try
             {
-                await this.IUserService.EditAsync(model);
+                await this.IUserService.EditAsync(info);
                 return Ok();
             }
             catch(Exception ex)

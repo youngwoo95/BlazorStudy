@@ -20,7 +20,7 @@ namespace WASMStudy.Server.Services
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        public async Task<Userinfo> AddAsync(Userinfo model)
+        public async ValueTask<Userinfo> AddAsync(Userinfo model)
         {
             try
             {
@@ -40,7 +40,7 @@ namespace WASMStudy.Server.Services
         /// <param name="reqno"></param>
         /// <returns></returns>
         /// <exception cref="ArgumentNullException"></exception>
-        public async Task<bool> DeleteAsync(int reqno)
+        public async ValueTask<bool> DeleteAsync(int reqno)
         {
             try
             {
@@ -66,7 +66,7 @@ namespace WASMStudy.Server.Services
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        public async Task<bool> EditAsync(Userinfo model)
+        public async ValueTask<bool> EditAsync(Userinfo model)
         {
             try
             {
@@ -83,7 +83,7 @@ namespace WASMStudy.Server.Services
         /// 전체 조회
         /// </summary>
         /// <returns></returns>
-        public async Task<List<Userinfo>> GetAllAsync()
+        public async ValueTask<List<Userinfo>> GetAllAsync()
         {
             try
             {
@@ -100,11 +100,11 @@ namespace WASMStudy.Server.Services
         /// </summary>
         /// <param name="userid"></param>
         /// <returns></returns>
-        public async Task<Userinfo> GetByIdAsync(string userid)
+        public async ValueTask<Userinfo> GetByIdAsync(string userid)
         {
             try
             {
-                Userinfo? model = await context.Userinfos.FindAsync(userid);
+                Userinfo? model = await context.Userinfos.FirstOrDefaultAsync(m => m.Userid == userid);
                 if (model != null)
                 {
                     return model;
@@ -114,6 +114,34 @@ namespace WASMStudy.Server.Services
                     throw new ArgumentNullException();
                 }
             }catch(Exception ex)
+            {
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// REQNO 조회
+        /// </summary>
+        /// <param name="reqno"></param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentNullException"></exception>
+        public async ValueTask<Userinfo> GetByReqNoAsync(int reqno)
+        {
+            try
+            {
+                Userinfo? model = await context.Userinfos.FirstOrDefaultAsync(m => m.Reqno == reqno);
+
+                if(model != null)
+                {
+                    return model;
+                }
+                else
+                {
+                    throw new ArgumentNullException();
+                }
+
+            }
+            catch(Exception ex)
             {
                 throw;
             }

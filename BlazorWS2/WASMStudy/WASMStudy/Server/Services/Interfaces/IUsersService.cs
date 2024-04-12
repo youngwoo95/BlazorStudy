@@ -9,34 +9,40 @@ namespace WASMStudy.Server.Services.Interfaces
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        Task<Userinfo> AddAsync(Userinfo model);
+        ValueTask<Userinfo> AddAsync(Userinfo model);
 
         /// <summary>
         /// 전체조회
         /// </summary>
         /// <returns></returns>
-        Task<List<Userinfo>> GetAllAsync();
+        ValueTask<List<Userinfo>> GetAllAsync();
 
         /// <summary>
         /// 수정
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        Task<bool> EditAsync(Userinfo model);
+        ValueTask<bool> EditAsync(Userinfo model);
 
         /// <summary>
         /// 삭제
         /// </summary>
         /// <param name="reqno"></param>
         /// <returns></returns>
-        Task<bool> DeleteAsync(int reqno);
+        ValueTask<bool> DeleteAsync(int reqno);
 
         /// <summary>
         /// 조회 - 사용자 ID 검색
         /// </summary>
         /// <param name="userid"></param>
         /// <returns></returns>
-        Task<Userinfo> GetByIdAsync(string userid);
+        ValueTask<Userinfo> GetByIdAsync(string userid);
 
+        /// <summary>
+        /// 조회 - REQNO 검색
+        /// </summary>
+        /// <param name="reqno"></param>
+        /// <returns></returns>
+        ValueTask<Userinfo> GetByReqNoAsync(int reqno);
     }
 }

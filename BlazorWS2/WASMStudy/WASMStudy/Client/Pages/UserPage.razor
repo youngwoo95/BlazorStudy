@@ -4,12 +4,13 @@
 @inject IJSRuntime JS
 
 <style>
-    tr, th, td{
+  tr, th, td{
         border: 1px solid black;
     }
 </style>
 
 <h2>사용자등록관련</h2>
+
 <div>
     <span>ID:</span>
     <input type="text" @bind-value="userinfo!.Userid" placeholder="사용하실 ID를 입력해주세요"/>
@@ -37,8 +38,13 @@
     <input type="button" value="사용자 저장" @onclick="(async ()=>await SaveAsync_Click(userinfo))" />
 </div>
 
+<div>
+    <input type="button" value="사용자 수정 저장" @onclick="(async ()=>await EditSaveAsync_Click(userinfo))" />
+</div>
+
 <table>
     <tr>
+        <th>체크</th>
         <th>REQNO</th>
         <th>아이디</th>
         <th>비밀번호</th>
@@ -47,8 +53,30 @@
         <th>주소</th>
     </tr>
 
-
+    @if(UserList != null){
+        @foreach (var model in UserList)
+        {
+            @if (model != null)
+            {
+                <tr>
+                    <td>
+                        <input type="button" value="수정" @onclick="(async () => await btnEdit(model!.Reqno))"/>
+                    </td>
+                    <td>@model?.Reqno.ToString()</td>
+                    <td>@model?.Userid.ToString()</td>
+                    <td>@model?.Userpw.ToString()</td>
+                    <td>@model?.Username.ToString()</td>
+                    <td>@model?.Phonenumber.ToString()</td>
+                    <td>@model?.Address.ToString()</td>
+                    <td>
+                        <input type="button" value="삭제" @onclick="(async () => await btnDelete(model!.Userid.ToString()))"/>
+                    </td>
+            </tr>
+            }
+        }
+    }
 </table>
+
 
 @code {
     // USER 테이블
@@ -62,7 +90,26 @@
         userinfo = new(); // USERINFO 테이블 초기화
 
         UserList = await Http.GetFromJsonAsync<List<Userinfo>>("api/Users");
+        StateHasChanged();
+    }
 
+    protected async ValueTask btnEdit(int reqno)
+    {
+        userinfo = await Http.GetFromJsonAsync<Userinfo>($"api/Users/select/{reqno}");
+        StateHasChanged();
+    }
+
+    protected async ValueTask EditSaveAsync_Click(Userinfo model)
+    {
+        var response = await Http.PutAsJsonAsync<Userinfo>("api/Users/edit", model);
+
+        if(response.IsSuccessStatusCode)
+        {
+            await JS.InvokeVoidAsync("alert", "UPDATE 성공");
+        }
+
+        await OnAfterRenderAsync(false);
+        userinfo = new();
     }
 
     /// <summary>
@@ -70,7 +117,7 @@
     /// </summary>
     /// <param name="userinfo"></param>
     /// <returns></returns>
-    protected async Task SaveAsync_Click(Userinfo userinfo)
+    protected async ValueTask SaveAsync_Click(Userinfo userinfo)
     {
         var response = await Http.PostAsJsonAsync<Userinfo>("api/Users/insert", userinfo);
 
@@ -82,11 +129,41 @@
         {
             await JS.InvokeVoidAsync("alert", "INSERT 실패");
         }
+
+        UserList = await Http.GetFromJsonAsync<List<Userinfo>>("api/Users");
+
+
+
+        await OnAfterRenderAsync(false);
     }
 
-    protected async Task EditAsync_Click(Userinfo userinfo)
+    /// <summary>
+    /// 삭제
+    /// </summary>
+    /// <param name="userid"></param>
+    /// <returns></returns>
+    protected async ValueTask btnDelete(string userid)
     {
-        
+        var response = await Http.DeleteAsync($"api/Users/delete/{userid}");
+
+        if (response.IsSuccessStatusCode)
+        {
+            await JS.InvokeVoidAsync("alert", "DELETE 성공");
+
+        }
+        else
+        {
+            await JS.InvokeVoidAsync("alert", "DELETE 실패");
+        }
+
+        //StateHasChanged();
+        await OnAfterRenderAsync(false);
     }
 
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        UserList = await Http.GetFromJsonAsync<List<Userinfo>>("api/Users");
+        StateHasChanged();
+    }
+    
 }
