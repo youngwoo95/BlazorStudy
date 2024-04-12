@@ -20,8 +20,12 @@ public partial class YwdbContext : DbContext
     public virtual DbSet<Deptinfo> Deptinfos { get; set; }
     public virtual DbSet<Userinfo> Userinfos { get; set; }
 
+    //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    //    => optionsBuilder.UseSqlServer("Data Source=123.2.156.122,1002;Database=YWDB;User Id=stec;Password=stecdev1234!;TrustServerCertificate=true;");
+
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        => optionsBuilder.UseSqlServer("Data Source=123.2.156.122,1002;Database=YWDB;User Id=stec;Password=stecdev1234!;TrustServerCertificate=true;");
+        => optionsBuilder.UseSqlServer("Data Source=127.0.0.1,1433;Database=YWDB;User Id=rladyddn258;Password=rladyddn!!95;TrustServerCertificate=true;");
+
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
