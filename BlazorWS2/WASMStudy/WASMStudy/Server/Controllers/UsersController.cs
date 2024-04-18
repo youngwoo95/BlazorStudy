@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
+using WASMStudy.Server.Hubs;
 using WASMStudy.Server.Services;
 using WASMStudy.Server.Services.Interfaces;
 using WASMStudy.Shared;
@@ -12,17 +14,33 @@ namespace WASMStudy.Server.Controllers
     {
         private readonly IUsersService IUserService;
 
-        public UsersController(IUsersService _iuserservice)
+        private readonly IHubContext<ChatHub> _hubContext;
+
+        public UsersController(IUsersService _iuserservice, IHubContext<ChatHub> hubContext)
         {
             IUserService = _iuserservice;
+            _hubContext = hubContext;
         }
 
         [HttpGet]
 
         public async ValueTask<IEnumerable<Userinfo>> Get()
         {
+            
+                
             return await IUserService.GetAllAsync();
         }
+
+
+        [HttpGet]
+        [Route("temp")]
+        public async Task<IActionResult> SendMessage()
+        {
+            await _hubContext.Clients.All.SendAsync("ReceiveMessage", "1", "메시지");
+
+            return Ok();
+        }
+        
 
         [HttpGet]
         [Route("select/{id:int}")]
